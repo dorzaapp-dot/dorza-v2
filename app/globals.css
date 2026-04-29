@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #E8742A;
+  --color-primary-dark: #C45D1E;
+  --color-primary-light: #FFF0E5;
+  --color-dark: #1A1A2E;
+  --color-surface: #F9F7F5;
+  --color-warm: #FDFAF7;
+  --color-border: #F0EBE4;
+  --color-text: #1A1A2E;
+  --color-text-secondary: #555555;
+  --color-text-muted: #888888;
+  --color-status: #24CB71;
+
+  --font-dm-sans: "DM Sans", system-ui, -apple-system, sans-serif;
+  --font-fraunces: "Fraunces", Georgia, serif;
+  --font-mono: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+
+  --section-padding-tight: 5rem;
+  --section-padding-default: 7.5rem;
+  --section-padding-large: 10rem;
+  --layout-max-width: 1200px;
+  --layout-gutter: 24px;
+  --bento-gap: 16px;
+  --bento-radius: 20px;
+
+  --shadow-none: none;
+  --shadow-soft: 0 1px 0 rgba(26, 26, 46, 0.06);
+  --shadow-medium: 0 12px 32px rgba(26, 26, 46, 0.08);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --duration-fast: 160ms;
+  --duration-base: 280ms;
+  --duration-slow: 480ms;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-dm-sans);
+  color: var(--color-text-secondary);
+  background: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-fraunces);
+  color: var(--color-dark);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+.marquee-container:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.faq-content {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--duration-base) var(--ease-out-quart);
+}
+.faq-content.open {
+  grid-template-rows: 1fr;
+}
+.faq-content > div {
+  overflow: hidden;
+}
