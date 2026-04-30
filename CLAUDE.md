@@ -75,3 +75,27 @@
 ## Git
 - Conventional commits: feat:, fix:, chore:, docs:
 - Commit after each major component, not one giant commit
+
+## Added by codebase-onboarding 2026-04-29
+
+### Build and run
+- Dev: `npm run dev`
+- Build: `npm run build`
+- Lint: `npm run lint`
+- No test suite exists yet
+
+### Animation
+- framer-motion is in use (added after initial build spec). Use `Reveal` and `Stagger` wrappers from `components/motion/` for scroll-in animations. Respect `useReducedMotion()` as Hero does.
+- Do not introduce CSS keyframe animations for elements already wrapped in framer-motion
+
+### Component sub-structure
+- Section-level components: `components/sections/` (homepage assembly)
+- Step components for intake wizard: `components/onboard/` (one file per step)
+- Shared UI primitives: `components/ui/` (Badge, Button, Card, Container, Eyebrow, SectionHeader, BentoCell, BentoGrid)
+- `cn()` from `lib/cn.ts` for conditional class merging
+
+### Known gaps to be aware of
+- `lib/api.ts` is a stub — `submitForm()` logs to console and resolves success. Wire the real endpoint here when ready; don't change the function signature.
+- No `next.config.*` exists yet. When adding static export, create `next.config.ts` with `output: 'export'`.
+- `package.json` lists `"next": "^9.3.3"` — this should be `"next": "^14"`. Confirm before any `npm install` operations.
+- Two onboarding routes exist (`/onboard` and `/onboarding`). The canonical one is `/onboard` (Tailwind + step components). `DorzaOnboarding.tsx` and `/onboarding` are an alternate build — do not add features to both.

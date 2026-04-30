@@ -127,21 +127,10 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom strip */}
-        <div className="mt-14 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="mt-14 pt-6 border-t border-white/10">
           <p className="font-mono text-[11px] text-white/30 uppercase tracking-wider">
-            {"// © 2026 dorza · made in sydney"}
+            © 2026 dorza · made in sydney
           </p>
-          <div className="flex items-center gap-2">
-            <span
-              className="w-2 h-2 rounded-full bg-status"
-              style={{ boxShadow: "0 0 6px #24CB71" }}
-              aria-hidden="true"
-            />
-            <span className="font-mono text-[11px] text-white/30 uppercase tracking-wider">
-              All systems operational
-            </span>
-          </div>
         </div>
       </Container>
     </footer>

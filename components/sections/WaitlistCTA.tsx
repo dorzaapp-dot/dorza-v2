@@ -59,7 +59,7 @@ export default function WaitlistCTA() {
             {submitted ? (
               <div className="rounded-card border border-white/10 bg-white/5 p-10 text-center">
                 <p className="font-mono text-[12px] uppercase tracking-widest text-primary mb-3">
-                  {"// You're in"}
+                  You&apos;re in
                 </p>
                 <h3 className="font-display font-semibold text-[24px] text-white mb-2">
                   You&apos;re on the list.

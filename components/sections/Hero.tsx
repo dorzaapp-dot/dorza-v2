@@ -3,7 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
-import HeroBento from "./HeroBento";
+import HeroAnchor from "./HeroAnchor";
 
 const headline = "The whole digital playbook, done for you";
 const words = headline.split(" ");
@@ -104,22 +104,10 @@ export default function Hero() {
 
           {/* Right — 40% */}
           <div className="hidden md:block md:col-span-2">
-            <HeroBento />
+            <HeroAnchor />
           </div>
         </div>
       </Container>
-
-      {/* Mono strip */}
-      <motion.div
-        {...fadeUp(0.8)}
-        className="mt-16 border-t border-border"
-      >
-        <Container>
-          <p className="py-4 font-mono text-[12px] text-text-muted uppercase tracking-wider overflow-hidden text-ellipsis whitespace-nowrap">
-            {"// Serving tradies · cafes · salons · fitness · retail · professional services"}
-          </p>
-        </Container>
-      </motion.div>
     </section>
   );
 }

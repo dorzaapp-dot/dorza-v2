@@ -81,7 +81,7 @@ function PricingCard({ plan }: { plan: typeof plans[0] }) {
     >
       {plan.highlighted && (
         <p className="font-mono text-[11px] uppercase tracking-widest text-primary mb-5">
-          {"// Most popular"}
+          Most popular
         </p>
       )}
 
@@ -146,7 +146,7 @@ export default function Pricing() {
 
         <Reveal delay={0.3}>
           <p className="text-center font-mono text-[12px] text-text-muted uppercase tracking-wider mt-10">
-            {"// Founding client offer · 50% off setup for the first 20 Sydney clients"}
+            Founding client offer · 50% off setup for the first 20 Sydney clients
           </p>
         </Reveal>
       </Container>
