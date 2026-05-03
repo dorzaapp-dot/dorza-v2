@@ -42,7 +42,7 @@ export default function Nav() {
         <div className="max-w-layout mx-auto px-6 lg:px-8 flex items-center justify-between h-16">
           <a
             href="/"
-            className="font-display font-bold text-2xl text-dark"
+            className="font-display text-[28px] leading-none text-dark"
             aria-label="Dorza home"
           >
             d<span className="text-primary">o</span>rza
@@ -118,7 +118,7 @@ export default function Nav() {
                       transition: { duration: 0.5, ease: DORZA_EASE },
                     },
                   }}
-                  className="flex items-center py-5 text-2xl font-display font-semibold text-dark border-b border-border"
+                  className="flex items-center py-5 text-[24px] font-body font-semibold tracking-[-0.01em] text-dark border-b border-border"
                 >
                   {l.label}
                 </motion.a>

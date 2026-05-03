@@ -32,14 +32,14 @@ export default function Thesis() {
       />
       <Container>
         <Reveal>
-          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary mb-8">
+          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-8">
             {"// Why dorza"}
           </p>
         </Reveal>
 
         <div ref={ref} className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
           <Reveal className="lg:col-span-7" delay={0.05}>
-            <p className="font-display italic text-[30px] md:text-[44px] lg:text-[52px] leading-[1.06] tracking-[-0.035em] text-dark">
+            <p className="font-display italic text-[36px] md:text-[52px] lg:text-[64px] leading-[1.05] tracking-[-0.025em] text-dark">
               Traditional agencies charge $3,000 a month and take six weeks.
               <span className="text-text-muted">
                 {" "}
@@ -69,7 +69,7 @@ function StatBlock({ stat, trigger }: { stat: Stat; trigger: boolean }) {
 
   return (
     <div className="border-t border-border pt-5">
-      <p className="font-display font-bold text-[44px] md:text-[56px] leading-none tracking-[-0.04em] text-dark tabular-nums">
+      <p className="font-body font-bold text-[44px] md:text-[56px] leading-none tracking-[-0.04em] text-dark tabular-nums">
         {stat.prefix}
         {display}
         {stat.suffix}

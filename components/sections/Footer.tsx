@@ -56,7 +56,7 @@ export default function Footer() {
           <div>
             <a
               href="/"
-              className="inline-block font-display font-bold text-2xl animate-breathe"
+              className="inline-block font-display text-[30px] leading-none animate-breathe"
               aria-label="Dorza home"
             >
               d<span className="text-primary">o</span>rza
@@ -122,7 +122,7 @@ export default function Footer() {
                   key={s.label}
                   href={s.href}
                   aria-label={s.label}
-                  className="text-white/40 hover:text-white transition-colors duration-[160ms]"
+                  className="text-white/40 hover:text-accent-light transition-colors duration-300 ease-dorza"
                 >
                   {s.svg}
                 </a>

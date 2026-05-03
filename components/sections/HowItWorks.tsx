@@ -39,7 +39,7 @@ const steps: Step[] = [
             <div key={label} className="flex items-center gap-3">
               <div
                 className={`w-5 h-5 rounded-full flex items-center justify-center ${
-                  done ? "bg-primary" : "bg-border"
+                  done ? "bg-accent" : "bg-border"
                 }`}
               >
                 {done && <span className="text-white text-[10px]">✓</span>}
@@ -78,16 +78,16 @@ const steps: Step[] = [
           <polyline
             points="0,50 25,40 50,42 75,28 100,18 125,12 160,4"
             fill="none"
-            stroke="#E8742A"
+            stroke="#D4845A"
             strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
-          <circle cx="160" cy="4" r="4" fill="#E8742A" />
+          <circle cx="160" cy="4" r="4" fill="#D4845A" />
         </svg>
         <div className="flex justify-between mt-2">
           <span className="font-mono text-[10px] text-text-muted">Day 1</span>
-          <span className="font-mono text-[10px] text-primary font-semibold">
+          <span className="font-mono text-[10px] text-accent font-semibold">
             +42% growth
           </span>
         </div>
@@ -135,10 +135,10 @@ function DesktopTimeline() {
         <div className="pt-28 pb-6 shrink-0">
           <Container>
             <Reveal>
-              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary mb-3">
+              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-3">
                 {"// How it works"}
               </p>
-              <h2 className="font-display font-bold text-[36px] lg:text-[44px] leading-[1.05] tracking-[-0.03em] text-dark">
+              <h2 className="font-display text-[44px] lg:text-[60px] leading-[1.02] tracking-[-0.03em] text-dark">
                 From zero to live in four steps
               </h2>
             </Reveal>
@@ -149,7 +149,7 @@ function DesktopTimeline() {
                   scaleX: shouldReduce ? 1 : progressScale,
                   transformOrigin: "left",
                 }}
-                className="absolute inset-0 bg-primary"
+                className="absolute inset-0 bg-accent"
               />
             </div>
 
@@ -195,15 +195,15 @@ function StepPanel({ step, index }: { step: Step; index: number }) {
           <div className="col-span-7 relative">
             <div
               aria-hidden="true"
-              className="font-display font-bold text-[180px] lg:text-[220px] leading-none tracking-[-0.04em] text-dark/[0.06] select-none pointer-events-none"
+              className="font-body font-bold text-[180px] lg:text-[220px] leading-none tracking-[-0.06em] text-dark/[0.06] select-none pointer-events-none tabular-nums"
             >
               {step.num}
             </div>
             <div className="relative -mt-32 lg:-mt-40 max-w-lg">
-              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary mb-3">
+              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-3">
                 Step {index + 1} of {steps.length}
               </p>
-              <h3 className="font-display font-semibold text-[32px] lg:text-[40px] leading-[1.08] tracking-[-0.03em] text-dark mb-4">
+              <h3 className="font-body font-semibold text-[28px] lg:text-[34px] leading-[1.15] tracking-[-0.02em] text-dark mb-4">
                 {step.title}
               </h3>
               <p className="text-[17px] lg:text-[18px] leading-relaxed tracking-[-0.01em] text-text-secondary">
@@ -228,10 +228,10 @@ function MobileTimeline() {
       <Container>
         <Reveal>
           <div className="mb-10">
-            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary mb-3">
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-3">
               {"// How it works"}
             </p>
-            <h2 className="font-display font-bold text-[28px] leading-[1.08] tracking-[-0.02em] text-dark">
+            <h2 className="font-display text-[36px] leading-[1.05] tracking-[-0.025em] text-dark">
               From zero to live in four steps
             </h2>
           </div>
@@ -240,10 +240,10 @@ function MobileTimeline() {
         <div className="space-y-10">
           {steps.map((s) => (
             <Reveal key={s.num}>
-              <p className="font-mono text-[11px] text-primary uppercase tracking-[0.18em] mb-2">
+              <p className="font-mono text-[11px] text-accent uppercase tracking-[0.18em] mb-2">
                 {s.num}
               </p>
-              <h3 className="font-display font-semibold text-[20px] leading-snug text-dark mb-2">
+              <h3 className="font-body font-semibold text-[20px] leading-snug text-dark mb-2">
                 {s.title}
               </h3>
               <p className="text-sm leading-relaxed text-text-secondary mb-4">

@@ -32,7 +32,7 @@ export default function SegmentMarquee() {
               </span>
               <span
                 aria-hidden
-                className="h-1 w-1 rounded-full bg-primary/60"
+                className="h-1 w-1 rounded-full bg-accent/70"
               />
             </span>
           ))}

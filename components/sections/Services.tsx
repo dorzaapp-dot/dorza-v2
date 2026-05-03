@@ -1,51 +1,67 @@
 "use client";
 
+import { ReactNode } from "react";
 import { Check } from "lucide-react";
 import { Container } from "@/components/ui/Container";
-import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Reveal } from "@/components/motion/Reveal";
 import { SlideReveal } from "@/components/motion/SlideReveal";
 
 function BrowserMock() {
   return (
-    <div className="mt-4 rounded-[10px] border border-border overflow-hidden bg-white">
-      <div className="bg-surface border-b border-border px-3 py-2 flex items-center gap-1.5">
-        <span className="w-2.5 h-2.5 rounded-full bg-border" />
-        <span className="w-2.5 h-2.5 rounded-full bg-border" />
-        <span className="w-2.5 h-2.5 rounded-full bg-border" />
-        <div className="flex-1 mx-3 h-4 bg-border rounded-full" />
+    <div className="rounded-card border border-border overflow-hidden bg-white shadow-soft">
+      <div className="bg-surface border-b border-border px-3 py-2.5 flex items-center gap-1.5">
+        <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
+        <span className="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]" />
+        <span className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
+        <div className="flex-1 mx-3 h-5 bg-white border border-border rounded-full" />
       </div>
-      <div className="p-4 space-y-3">
-        <div className="h-5 bg-primary/20 rounded-full w-2/3" />
-        <div className="h-3 bg-border rounded-full w-full" />
-        <div className="h-3 bg-border rounded-full w-5/6" />
-        <div className="h-3 bg-border rounded-full w-4/5" />
-        <div className="flex gap-2 mt-3">
-          <div className="h-8 w-24 bg-primary rounded-full" />
-          <div className="h-8 w-20 bg-border rounded-full" />
+      <div className="p-6 space-y-3">
+        <div className="h-2 w-20 rounded-full bg-primary/40" />
+        <div className="space-y-1.5">
+          <div className="h-6 bg-dark rounded-md w-11/12" />
+          <div className="h-6 bg-dark rounded-md w-3/4" />
+        </div>
+        <div className="space-y-1.5 pt-1">
+          <div className="h-2 bg-border rounded-full w-full" />
+          <div className="h-2 bg-border rounded-full w-5/6" />
+          <div className="h-2 bg-border rounded-full w-4/5" />
+        </div>
+        <div className="flex gap-2 pt-2">
+          <div className="h-9 w-28 bg-primary rounded-full" />
+          <div className="h-9 w-24 bg-white border border-border rounded-full" />
+        </div>
+        <div className="grid grid-cols-3 gap-2 pt-3">
+          <div className="aspect-[4/3] bg-gradient-to-br from-primary-tint to-[#F8DCC4] rounded-[10px]" />
+          <div className="aspect-[4/3] bg-surface rounded-[10px]" />
+          <div className="aspect-[4/3] bg-gradient-to-br from-accent-tint to-[#CFE0D2] rounded-[10px]" />
         </div>
       </div>
     </div>
   );
 }
 
-function InstagramMocks() {
+function SocialMock() {
   const posts = [
-    { bg: "from-primary-light to-[#FFE0C8]" },
-    { bg: "from-surface to-border" },
-    { bg: "from-[#FFF0E5] to-[#FFE5CC]" },
+    { bg: "from-primary-tint to-[#F8DCC4]", caption: "Latte art Friday ☕" },
+    { bg: "from-accent-tint to-[#CFE0D2]", caption: "Behind the scenes" },
+    { bg: "from-surface to-border", caption: "New menu drop" },
   ];
   return (
-    <div className="mt-4 space-y-2">
+    <div className="space-y-3">
       {posts.map((p, i) => (
-        <div key={i} className="flex items-center gap-2 bg-white border border-border rounded-[10px] p-2 overflow-hidden">
-          <div className={`w-10 h-10 rounded-sm bg-gradient-to-br ${p.bg} shrink-0`} />
-          <div className="flex-1 space-y-1.5">
-            <div className="h-2.5 bg-border rounded-full w-3/4" />
-            <div className="h-2 bg-border rounded-full w-1/2" />
+        <div
+          key={i}
+          className="flex items-center gap-3 bg-white border border-border rounded-card p-3 shadow-soft"
+        >
+          <div
+            className={`w-14 h-14 rounded-md bg-gradient-to-br ${p.bg} shrink-0`}
+          />
+          <div className="flex-1 space-y-1.5 min-w-0">
+            <div className="h-2.5 bg-border rounded-full w-1/2" />
+            <p className="text-[13px] text-text-secondary truncate">{p.caption}</p>
           </div>
-          <div className="shrink-0 w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
-            <span className="text-[8px] text-primary font-bold">↑</span>
+          <div className="shrink-0 w-7 h-7 rounded-full bg-accent-tint text-accent-dark flex items-center justify-center font-semibold text-[12px]">
+            ↑
           </div>
         </div>
       ))}
@@ -53,25 +69,35 @@ function InstagramMocks() {
   );
 }
 
-function StrategyMock() {
-  const lines = [
-    "# Competitor Analysis",
-    "→ Smith Plumbing: 23 reviews, no site",
-    "→ City Trade Co: weak social, 3.8★",
-    "→ Gap: no one doing video content",
-    "",
-    "# Opportunities",
-    "→ Google Local ranking #1–3",
-    "→ Facebook Marketplace leads",
-    "→ Instagram before/after content",
+function ResearchMock() {
+  const lines: { text: string; head?: boolean }[] = [
+    { text: "# Competitor Analysis", head: true },
+    { text: "→ Smith Plumbing: 23 reviews, no site" },
+    { text: "→ City Trade Co: weak social, 3.8★" },
+    { text: "→ Gap: no one doing video content" },
+    { text: "" },
+    { text: "# Opportunities", head: true },
+    { text: "→ Google Local ranking #1–3" },
+    { text: "→ Facebook Marketplace leads" },
+    { text: "→ Instagram before/after content" },
   ];
   return (
-    <div className="mt-4 font-mono text-[11px] leading-[1.8] text-white/70 space-y-0">
-      {lines.map((line, i) => (
-        <div key={i} className={line.startsWith("#") ? "text-primary/90 font-semibold" : ""}>
-          {line || <span className="opacity-0">.</span>}
-        </div>
-      ))}
+    <div className="rounded-card border border-white/10 bg-dark p-6 shadow-medium">
+      <div className="flex items-center gap-1.5 mb-4">
+        <span className="w-2 h-2 rounded-full bg-white/20" />
+        <span className="w-2 h-2 rounded-full bg-white/20" />
+        <span className="w-2 h-2 rounded-full bg-white/20" />
+      </div>
+      <div className="font-mono text-[12px] leading-[1.85] text-white/70">
+        {lines.map((line, i) => (
+          <div
+            key={i}
+            className={line.head ? "text-accent-light font-semibold" : ""}
+          >
+            {line.text || <span className="opacity-0">.</span>}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -84,14 +110,17 @@ function ChatMock() {
     { from: "agent", text: "Here's your Mon schedule ✓" },
   ];
   return (
-    <div className="mt-4 space-y-2">
+    <div className="rounded-card border border-border bg-white p-5 shadow-soft space-y-2.5">
       {messages.map((m, i) => (
-        <div key={i} className={`flex ${m.from === "owner" ? "justify-end" : "justify-start"}`}>
+        <div
+          key={i}
+          className={`flex ${m.from === "owner" ? "justify-end" : "justify-start"}`}
+        >
           <span
-            className={`text-[12px] px-3 py-1.5 rounded-full max-w-[85%] leading-snug ${
+            className={`text-[13px] px-3.5 py-2 rounded-2xl max-w-[85%] leading-snug ${
               m.from === "owner"
                 ? "bg-primary text-white rounded-br-sm"
-                : "bg-border text-dark rounded-bl-sm"
+                : "bg-surface text-dark rounded-bl-sm"
             }`}
           >
             {m.text}
@@ -102,32 +131,70 @@ function ChatMock() {
   );
 }
 
-const websiteBullets = [
-  "Custom-designed, mobile-first",
-  "Google Business profile setup",
-  "SEO-ready from day one",
-  "Live within 24 hours",
-];
+type Service = {
+  num: string;
+  title: string;
+  description: string;
+  features: string[];
+  badge?: { label: string; tone: "accent" | "primary" };
+  visual: ReactNode;
+};
 
-const socialBullets = [
-  "Facebook, Instagram & more",
-  "AI-generated content calendar",
-  "Automated posting",
-  "Performance tracking",
-];
-
-const strategyBullets = [
-  "Competitor analysis",
-  "Market opportunity mapping",
-  "Tailored marketing plan",
-  "Ongoing trend monitoring",
-];
-
-const agentBullets = [
-  "On-demand marketing help",
-  "Content creation & copywriting",
-  "Campaign management",
-  "Always learning your business",
+const services: Service[] = [
+  {
+    num: "01",
+    title: "Custom websites, live in 24 hours",
+    description:
+      "Built mobile-first, SEO-ready, and crafted around your brand — not a template. Hand-coded by a real team, accelerated by AI.",
+    features: [
+      "Custom-designed, mobile-first",
+      "Google Business profile setup",
+      "SEO-ready from day one",
+      "Live within 24 hours",
+    ],
+    badge: { label: "Most popular", tone: "primary" },
+    visual: <BrowserMock />,
+  },
+  {
+    num: "02",
+    title: "Social media on autopilot",
+    description:
+      "Your Instagram and Facebook, posted on schedule, on-brand, with content that actually sounds like you.",
+    features: [
+      "Facebook, Instagram & more",
+      "AI-generated content calendar",
+      "Automated posting",
+      "Performance tracking",
+    ],
+    visual: <SocialMock />,
+  },
+  {
+    num: "03",
+    title: "Research & strategy",
+    description:
+      "We map your local competition, find the gaps, and turn it into a tailored marketing plan you can actually act on.",
+    features: [
+      "Competitor analysis",
+      "Market opportunity mapping",
+      "Tailored marketing plan",
+      "Ongoing trend monitoring",
+    ],
+    visual: <ResearchMock />,
+  },
+  {
+    num: "04",
+    title: "AI agents at your disposal",
+    description:
+      "On-demand marketing help that learns your business — from content drafts to campaign tweaks to handling enquiries.",
+    features: [
+      "On-demand marketing help",
+      "Content creation & copywriting",
+      "Campaign management",
+      "Always learning your business",
+    ],
+    badge: { label: "New", tone: "accent" },
+    visual: <ChatMock />,
+  },
 ];
 
 export default function Services() {
@@ -135,109 +202,89 @@ export default function Services() {
     <section id="services" className="py-20 md:py-[7.5rem] bg-warm">
       <Container>
         <Reveal>
-          <SectionHeader
-            eyebrow="// What we do"
-            title="Everything you need, done for you"
-            kicker="One agency. Website, social, search, and AI — all running while you get on with your work."
-          />
+          <div className="max-w-2xl mb-16 md:mb-20">
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-4">
+              {"// What we do"}
+            </p>
+            <h2 className="font-display text-[44px] md:text-[64px] leading-[1.02] tracking-[-0.025em] text-dark">
+              Everything you need, done for you
+            </h2>
+            <p className="mt-5 text-[17px] md:text-[18px] leading-relaxed tracking-[-0.01em] text-text-secondary">
+              One agency. Website, social, search, and AI — all running while
+              you get on with your work.
+            </p>
+          </div>
         </Reveal>
 
-        {/* Bento grid */}
-        <div className="grid grid-cols-1 md:grid-cols-6 gap-4 auto-rows-auto">
-
-          {/* Website — col-span-4 row-span-2 */}
-          <SlideReveal
-            from="left"
-            className="md:col-span-4 md:row-span-2 rounded-card border border-border p-6 bg-surface hover:shadow-medium hover:-translate-y-1 hover:border-[#E5DFD6] transition-all duration-500 ease-dorza"
-            delay={0.05}
-          >
-            <div className="flex items-start justify-between">
-              <div>
-                <span className="inline-flex items-center h-7 px-3 bg-primary text-white font-mono text-[11px] uppercase tracking-widest rounded-full">
-                  Most popular
-                </span>
-                <h3 className="font-display font-semibold text-[22px] md:text-[24px] leading-[1.18] tracking-[-0.01em] text-dark mt-3">
-                  Custom websites, live in 24 hours
-                </h3>
-              </div>
-            </div>
-            <BrowserMock />
-            <ul className="mt-5 grid grid-cols-2 gap-x-4 gap-y-2">
-              {websiteBullets.map((b) => (
-                <li key={b} className="flex items-start gap-2 text-sm text-text-secondary">
-                  <Check size={14} className="text-primary mt-0.5 shrink-0" />
-                  {b}
-                </li>
-              ))}
-            </ul>
-          </SlideReveal>
-
-          {/* Social — col-span-2 row-span-2 */}
-          <SlideReveal
-            from="right"
-            className="md:col-span-2 md:row-span-2 rounded-card border border-primary/20 p-6 bg-primary-light hover:shadow-medium hover:-translate-y-1 transition-all duration-500 ease-dorza"
-            delay={0.12}
-          >
-            <h3 className="font-display font-semibold text-[22px] md:text-[24px] leading-[1.18] tracking-[-0.01em] text-dark">
-              Social media on autopilot
-            </h3>
-            <InstagramMocks />
-            <ul className="mt-5 space-y-2">
-              {socialBullets.map((b) => (
-                <li key={b} className="flex items-start gap-2 text-sm text-text-secondary">
-                  <Check size={14} className="text-primary mt-0.5 shrink-0" />
-                  {b}
-                </li>
-              ))}
-            </ul>
-          </SlideReveal>
-
-          {/* Research — col-span-3 row-span-2, dark */}
-          <SlideReveal
-            from="left"
-            className="md:col-span-3 md:row-span-2 rounded-card border border-white/10 p-6 bg-dark hover:shadow-medium hover:-translate-y-1 transition-all duration-500 ease-dorza"
-            delay={0.18}
-          >
-            <h3 className="font-display font-semibold text-[22px] md:text-[24px] leading-[1.18] tracking-[-0.01em] text-white">
-              Research & strategy
-            </h3>
-            <StrategyMock />
-            <ul className="mt-5 space-y-2">
-              {strategyBullets.map((b) => (
-                <li key={b} className="flex items-start gap-2 text-sm text-white/60">
-                  <Check size={14} className="text-primary mt-0.5 shrink-0" />
-                  {b}
-                </li>
-              ))}
-            </ul>
-          </SlideReveal>
-
-          {/* AI Agents — col-span-3 row-span-2 */}
-          <SlideReveal
-            from="right"
-            className="md:col-span-3 md:row-span-2 rounded-card border border-border p-6 bg-surface hover:shadow-medium hover:-translate-y-1 hover:border-[#E5DFD6] transition-all duration-500 ease-dorza"
-            delay={0.24}
-          >
-            <div className="flex items-start justify-between">
-              <h3 className="font-display font-semibold text-[22px] md:text-[24px] leading-[1.18] tracking-[-0.01em] text-dark">
-                AI agents at your disposal
-              </h3>
-              <span className="inline-flex items-center h-7 px-3 bg-primary-light text-primary font-mono text-[11px] uppercase tracking-widest rounded-full border border-primary/20 shrink-0 ml-3">
-                New
-              </span>
-            </div>
-            <ChatMock />
-            <ul className="mt-5 grid grid-cols-2 gap-x-4 gap-y-2">
-              {agentBullets.map((b) => (
-                <li key={b} className="flex items-start gap-2 text-sm text-text-secondary">
-                  <Check size={14} className="text-primary mt-0.5 shrink-0" />
-                  {b}
-                </li>
-              ))}
-            </ul>
-          </SlideReveal>
+        <div className="space-y-12 md:space-y-0 md:divide-y md:divide-border/40">
+          {services.map((service, i) => (
+            <ServiceRow key={service.num} service={service} index={i} />
+          ))}
         </div>
       </Container>
     </section>
+  );
+}
+
+function ServiceRow({ service, index }: { service: Service; index: number }) {
+  const mockOnLeft = index % 2 === 0;
+  // Visual order: when mockup is on the right, text content sits on the left.
+  return (
+    <div className="md:py-16 lg:py-20">
+      <div className="grid md:grid-cols-12 gap-8 lg:gap-14 items-center">
+        <SlideReveal
+          from={mockOnLeft ? "left" : "right"}
+          className={`md:col-span-6 ${
+            mockOnLeft ? "md:order-1" : "md:order-2"
+          }`}
+        >
+          {service.visual}
+        </SlideReveal>
+
+        <Reveal
+          stagger={0.1}
+          className={`md:col-span-6 ${
+            mockOnLeft ? "md:order-2" : "md:order-1"
+          }`}
+        >
+          <div className="flex items-center gap-3">
+            <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent">
+              {service.num}
+            </span>
+            {service.badge && (
+              <span
+                className={`inline-flex items-center h-6 px-3 rounded-full font-mono text-[10px] uppercase tracking-[0.16em] ${
+                  service.badge.tone === "accent"
+                    ? "bg-accent-light text-accent-dark"
+                    : "bg-primary text-white"
+                }`}
+              >
+                {service.badge.label}
+              </span>
+            )}
+          </div>
+
+          <h3 className="mt-3 font-body font-semibold text-[26px] md:text-[32px] leading-[1.15] tracking-[-0.02em] text-dark">
+            {service.title}
+          </h3>
+
+          <p className="mt-4 text-[16px] md:text-[17px] leading-relaxed tracking-[-0.005em] text-text-secondary max-w-md">
+            {service.description}
+          </p>
+
+          <ul className="mt-6 grid sm:grid-cols-2 gap-x-6 gap-y-2.5 max-w-md">
+            {service.features.map((f) => (
+              <li
+                key={f}
+                className="flex items-start gap-2 text-[14px] text-text-secondary"
+              >
+                <Check size={15} className="text-accent mt-0.5 shrink-0" />
+                {f}
+              </li>
+            ))}
+          </ul>
+        </Reveal>
+      </div>
+    </div>
   );
 }

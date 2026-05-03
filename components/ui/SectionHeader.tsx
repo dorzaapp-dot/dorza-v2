@@ -33,7 +33,7 @@ export function SectionHeader({
       )}
       <h2
         className={cn(
-          "font-display font-bold text-[28px] md:text-[40px] leading-[1.08] tracking-[-0.02em]",
+          "font-display text-[36px] md:text-[52px] leading-[1.05] tracking-[-0.025em]",
           light ? "text-white" : "text-dark",
           align === "center" && "mx-auto max-w-2xl"
         )}

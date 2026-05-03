@@ -42,12 +42,12 @@ export default function Hero() {
           <div className="md:col-span-3">
             <motion.p
               {...fadeUp(0)}
-              className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary mb-6"
+              className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-6"
             >
               Digital Agency · Sydney
             </motion.p>
 
-            <h1 className="font-display font-bold text-[44px] md:text-[64px] lg:text-[72px] leading-[1.0] tracking-[-0.04em] text-dark overflow-hidden">
+            <h1 className="font-display text-[52px] md:text-[76px] lg:text-[88px] leading-[1.02] tracking-[-0.03em] text-dark overflow-hidden">
               <motion.span
                 variants={wordContainer}
                 initial="hidden"

@@ -46,7 +46,7 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
         onClick={() => setOpen((o) => !o)}
         className="w-full flex items-center justify-between gap-4 py-5 text-left group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm"
       >
-        <span className="font-display font-semibold text-[17px] md:text-[18px] leading-snug tracking-[-0.01em] text-dark group-hover:text-primary transition-colors duration-300 ease-dorza">
+        <span className="font-body font-semibold text-[16px] md:text-[17px] leading-snug tracking-[-0.005em] text-dark group-hover:text-primary transition-colors duration-300 ease-dorza">
           {q}
         </span>
         <span
@@ -89,10 +89,10 @@ export default function FAQ() {
         <div className="max-w-2xl mx-auto">
           <Reveal>
             <div className="text-center mb-12">
-              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary mb-4">
+              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-4">
                 {"// Questions"}
               </p>
-              <h2 className="font-display font-bold text-[32px] md:text-[44px] leading-[1.05] tracking-[-0.03em] text-dark">
+              <h2 className="font-display text-[44px] md:text-[60px] leading-[1.02] tracking-[-0.025em] text-dark">
                 Answers to the real questions
               </h2>
             </div>

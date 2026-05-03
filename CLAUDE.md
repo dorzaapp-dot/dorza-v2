@@ -1,49 +1,80 @@
 # Dorza — Project Conventions
 
 ## Stack
-- Next.js 14 (App Router, static export)
-- Tailwind CSS v3 + custom theme in tailwind.config.ts
+- Next.js 14 (App Router) — static export configured in `next.config.mjs` (`output: 'export'`, `images.unoptimized: true`)
+- Tailwind CSS v3 + custom theme in `tailwind.config.ts` (tokens mirrored in `app/globals.css` `:root`)
 - TypeScript strict mode
+- framer-motion for all motion (no CSS keyframes for elements already wrapped in framer-motion)
 - Lucide React for icons
-- Google Fonts: DM Sans (body 400/500/600), Fraunces (display 600/700)
+- Google Fonts via `next/font`: Plus Jakarta Sans (body 400/500/600/700) + Instrument Serif (display 400)
 
-## Design tokens
-- Primary: #E8742A (orange) — buttons, accents, links, CTAs
-- Primary dark: #C45D1E — hover states
-- Primary light: #FFF0E5 — light backgrounds, badges
-- Dark: #1A1A2E — headings, nav, footer bg
-- Text: #1A1A2E (primary), #555 (secondary), #888 (muted)
-- Background: #FFFFFF (main), #FDFAF7 (warm off-white sections), #F9F7F5 (surface)
-- Border: #F0EBE4
-- Radius: 12px (cards), 10px (buttons/inputs), 8px (small elements)
-- Shadows: none except subtle card hover (0 2px 12px rgba(0,0,0,0.06))
+## Design tokens (current — terracotta + sage editorial palette)
+- Primary (terracotta): `#D4845A` · light `#E8A87C` · dark `#B8673F` · tint `#FBEDE3` — buttons, CTAs, accents
+- Accent (sage): `#6B8F71` · light `#A4C2A8` · dark `#4A6B4E` · tint `#E8EFE9` — eyebrow labels, secondary highlights
+- Dark: `#1A1A2E` — headings, dark sections (WaitlistCTA), footer
+- Surface: `#F9F7F5` · Warm: `#FDFAF7` · Border: `#F0EBE4`
+- Text: primary `#1A1A2E` · secondary `#555` · muted `#888`
+- Status: `#24CB71`
+- Radius: `rounded-card` 20px · `rounded-btn` / `rounded-full` 999px · `rounded-sm` 8px
+- Shadows: `shadow-soft` (1px hairline), `shadow-medium` / `shadow-card` (`0 12px 32px rgba(26,26,46,0.08)`)
+- Easing: `ease-dorza` = `cubic-bezier(0.23, 1, 0.32, 1)` (also exported as `DORZA_EASE` from `components/motion/Reveal`)
 
 ## Component patterns
-- All CTAs use primary orange bg, white text, 48px height, font-weight 600
-- Section spacing: py-20 on desktop, py-14 on mobile
-- Max content width: max-w-6xl mx-auto px-5
-- Cards: white bg, 1px border-[#F0EBE4], rounded-xl, p-6, hover:shadow transition
-- Headings: Fraunces font, text-[#1A1A2E]
-- Body: DM Sans, text-[#555], leading-relaxed
-- Badge/pill: bg-[#FFF0E5] text-[#E8742A] text-sm font-medium px-4 py-1.5 rounded-full
+- All CTAs: pill-shaped (`rounded-full`), `h-12`, `bg-primary hover:bg-primary-dark text-white font-semibold text-sm`, hover `-translate-y-px hover:shadow-medium`
+- Secondary buttons: `bg-white border border-border text-dark hover:bg-surface hover:border-[#E5DFD6]`
+- Section spacing: `py-20 md:py-[7.5rem]` (use `md:py-[10rem]` for the dark waitlist section)
+- Container: `<Container>` from `components/ui/Container` (max width 1200px, px-5)
+- Cards: `bg-white border border-border rounded-card p-6` with `hover:shadow-medium hover:-translate-y-1 transition-all duration-500 ease-dorza`
+- Headings: `font-display` (Instrument Serif), `text-dark`, tight tracking (`tracking-[-0.02em]` to `-0.03em`)
+- Body: `font-body` (Plus Jakarta Sans), `text-text-secondary`, `leading-relaxed`
+- Eyebrow label (recurring): `font-mono text-[11px] uppercase tracking-[0.18em] text-accent` — used above section headings
+- Section heading (recurring): `font-display text-[44px] md:text-[60px] leading-[1.02] tracking-[-0.025em] text-dark`
+- Always pair token changes in `tailwind.config.ts` with the matching CSS variable in `app/globals.css` `:root`
+
+## Motion
+- Wrap scroll-in content in `<Reveal>` (or `<Reveal stagger>`) from `components/motion/Reveal.tsx`. Default `y=24`, `duration=0.6`, `ease-dorza`, `viewport={{ once: true, margin: "-100px" }}`
+- Use `<SlideReveal>` for horizontal slide-ins, `useCountUp(value, inView)` for animated number reveals
+- Always honour `useReducedMotion()` — Hero and Reveal both do this
+- Don't introduce CSS keyframe animations for elements already wrapped in framer-motion
+- Available named keyframes (for non-framer cases): `float`, `marquee`, `pulse-ring`, `breathe`, `bounce-gentle`, `pulse-subtle`
 
 ## File conventions
-- Components in /components, one per file, PascalCase
-- Pages in /app, use page.tsx
-- Shared types in /lib/types.ts
-- All images in /public/images
+- Section components in `components/sections/`, primitives in `components/ui/`, motion wrappers in `components/motion/`
+- Step components for the intake wizard in `components/onboard/`, prefixed `Step`
+- One component per file, PascalCase
+- Pages in `app/`, use `page.tsx`
+- Shared types in `lib/types.ts`
+- All images in `public/images`
 - No barrel exports, direct imports only
+
+## Forms and data flow
+- All form submissions go through `submitForm(endpoint, data)` in `lib/api.ts`
+- The function is currently a stub (console.log + 500ms resolve). When wiring real submission, point at a third-party endpoint (Formspree, n8n webhook) — **Next.js API route handlers won't work because the app is a static export**. Don't change the function signature; many components call it.
+- Controlled inputs only. Manual field-by-field validation (no validation library).
 
 ## SEO
 - Every page needs metadata export with title, description, openGraph
 - Use semantic HTML (main, section, article, nav, footer)
 - All images need alt text
-- Structured data (JSON-LD) for LocalBusiness on homepage
+- Structured data (JSON-LD) for Organization in `app/layout.tsx`; LocalBusiness on homepage when added
+
+## Build, run, deploy
+- Dev: `npm run dev`
+- Build: `npm run build` (produces static `out/` because of `output: 'export'`)
+- Lint: `npm run lint`
+- No tests configured
+- Deploy: push to Vercel (no CI configured yet)
+
+## Known gaps to be aware of
+- `lib/api.ts` is a stub — see Forms section above
+- Two onboarding routes exist (`/onboard` and `/onboarding`). The canonical one is `/onboard` (Tailwind + modular step components). `DorzaOnboarding.tsx` and `/onboarding` are an older alternate — do not add features to both.
+- `components/Footer.tsx` and `components/Nav.tsx` at the top level are older duplicates; the homepage uses the ones in `components/sections/`
+- Design tokens are duplicated in `tailwind.config.ts` and `app/globals.css` — change both together
 
 ## Client website builds (future)
-- Each client site is a separate repo generated from templates in /templates
-- Client intake markdown goes in the repo root as intake.md
-- Claude Code reads intake.md + this file to build the site
+- Each client site is a separate repo generated from templates in `/templates`
+- Client intake markdown goes in the repo root as `intake.md`
+- Claude Code reads `intake.md` + this file to build the site
 - Always generate: sitemap.xml, robots.txt, JSON-LD LocalBusiness schema
 - Default font pairings by business type:
   - Tradie: Inter + Cabinet Grotesk (clean/tough)
@@ -53,16 +84,15 @@
   - Retail: DM Sans + Fraunces (friendly)
   - Professional: Inter + Newsreader (trustworthy)
 - Default colour palettes by business type:
-  - Tradie: navy #1B2A4A + orange #E8742A
-  - Cafe: warm brown #5C3D2E + sage #7A9E7E
-  - Salon: blush #E8B4B8 + gold #C4A35A
-  - Fitness: black #1A1A1A + lime #A8D83A
-  - Retail: charcoal #2D2D2D + coral #E8745A
-  - Professional: navy #1A2744 + teal #2A9D8F
+  - Tradie: navy `#1B2A4A` + orange `#E8742A`
+  - Cafe: warm brown `#5C3D2E` + sage `#7A9E7E`
+  - Salon: blush `#E8B4B8` + gold `#C4A35A`
+  - Fitness: black `#1A1A1A` + lime `#A8D83A`
+  - Retail: charcoal `#2D2D2D` + coral `#E8745A`
+  - Professional: navy `#1A2744` + teal `#2A9D8F`
 - Mobile-first, test at 375px width
 - Lighthouse targets: Performance 90+, Accessibility 95+, SEO 95+
-- Contact forms submit to our internal API (endpoint configured per client in env vars)
-- Phone numbers must be clickable tel: links
+- Phone numbers must be clickable `tel:` links
 - Google Maps embed on every contact section
 
 ## Prompt patterns for content generation
@@ -73,29 +103,9 @@
 - CTAs: action-oriented verbs ("Get a free quote", "Book now", "See our menu")
 
 ## Git
-- Conventional commits: feat:, fix:, chore:, docs:
+- Conventional commits: `feat:`, `fix:`, `chore:`, `docs:`
 - Commit after each major component, not one giant commit
 
-## Added by codebase-onboarding 2026-04-29
-
-### Build and run
-- Dev: `npm run dev`
-- Build: `npm run build`
-- Lint: `npm run lint`
-- No test suite exists yet
-
-### Animation
-- framer-motion is in use (added after initial build spec). Use `Reveal` and `Stagger` wrappers from `components/motion/` for scroll-in animations. Respect `useReducedMotion()` as Hero does.
-- Do not introduce CSS keyframe animations for elements already wrapped in framer-motion
-
-### Component sub-structure
-- Section-level components: `components/sections/` (homepage assembly)
-- Step components for intake wizard: `components/onboard/` (one file per step)
-- Shared UI primitives: `components/ui/` (Badge, Button, Card, Container, Eyebrow, SectionHeader, BentoCell, BentoGrid)
-- `cn()` from `lib/cn.ts` for conditional class merging
-
-### Known gaps to be aware of
-- `lib/api.ts` is a stub — `submitForm()` logs to console and resolves success. Wire the real endpoint here when ready; don't change the function signature.
-- No `next.config.*` exists yet. When adding static export, create `next.config.ts` with `output: 'export'`.
-- `package.json` lists `"next": "^9.3.3"` — this should be `"next": "^14"`. Confirm before any `npm install` operations.
-- Two onboarding routes exist (`/onboard` and `/onboarding`). The canonical one is `/onboard` (Tailwind + step components). `DorzaOnboarding.tsx` and `/onboarding` are an alternate build — do not add features to both.
+## When in doubt
+- See `CODEBASE_INDEX.md` for the directory map and "task → location" guide
+- For multi-file or cross-cutting changes, propose first, then implement

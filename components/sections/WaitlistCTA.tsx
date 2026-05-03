@@ -52,17 +52,17 @@ export default function WaitlistCTA() {
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(600px circle at 15% 20%, rgba(232,116,42,0.18), transparent 60%), radial-gradient(800px circle at 85% 80%, rgba(232,116,42,0.10), transparent 60%)",
+            "radial-gradient(600px circle at 15% 20%, rgba(212,132,90,0.18), transparent 60%), radial-gradient(800px circle at 85% 80%, rgba(107,143,113,0.12), transparent 60%)",
         }}
       />
 
       <Container>
         <div className="relative max-w-xl mx-auto text-center">
           <Reveal>
-            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary mb-6">
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-6">
               {"// Founding client offer"}
             </p>
-            <h2 className="font-display font-bold text-[36px] md:text-[60px] leading-[1.0] tracking-[-0.04em] text-white mb-5">
+            <h2 className="font-display text-[44px] md:text-[76px] leading-[1.02] tracking-[-0.025em] text-white mb-5">
               Ready to stop being invisible online?
             </h2>
             <p className="text-[17px] md:text-[18px] leading-relaxed tracking-[-0.01em] text-white/60 max-w-md mx-auto">
@@ -226,10 +226,10 @@ function Confirmation() {
         </div>
       )}
 
-      <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary mb-3">
+      <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent-light mb-3">
         You&rsquo;re in
       </p>
-      <h3 className="font-display font-semibold text-[28px] md:text-[32px] tracking-[-0.03em] text-white mb-2">
+      <h3 className="font-body font-semibold text-[26px] md:text-[30px] tracking-[-0.02em] text-white mb-2">
         Welcome to the front of the queue.
       </h3>
       <p className="text-white/60 text-[15px] leading-relaxed">

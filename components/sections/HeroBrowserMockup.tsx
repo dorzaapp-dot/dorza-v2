@@ -145,7 +145,7 @@ export default function HeroBrowserMockup() {
                     className="h-2.5 w-2.5 rounded-full"
                     style={{ background: site.accent }}
                   />
-                  <span className="font-display font-bold text-[13px] text-dark/90">
+                  <span className="font-body font-semibold text-[13px] tracking-[-0.01em] text-dark/90">
                     {site.name}
                   </span>
                 </div>
@@ -163,7 +163,7 @@ export default function HeroBrowserMockup() {
               >
                 <div className="space-y-2">
                   <p
-                    className="font-display font-bold text-[18px] leading-tight max-w-[80%]"
+                    className="font-body font-semibold text-[18px] leading-tight tracking-[-0.01em] max-w-[80%]"
                     style={{ color: site.textOnHero }}
                   >
                     {site.tagline}
@@ -216,7 +216,7 @@ export default function HeroBrowserMockup() {
         <p className="font-mono text-[10px] text-white/70 uppercase tracking-widest leading-none">
           Live in
         </p>
-        <p className="font-display font-bold text-[26px] leading-none mt-1">24h</p>
+        <p className="font-body font-bold text-[24px] leading-none mt-1 tracking-[-0.02em]">24h</p>
       </motion.div>
     </motion.div>
   );

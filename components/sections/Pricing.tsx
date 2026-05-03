@@ -84,23 +84,23 @@ function PricingCard({ plan }: { plan: typeof plans[0] }) {
     <div
       className={`relative rounded-card flex flex-col p-6 transition-all duration-500 ease-dorza ${
         plan.highlighted
-          ? "bg-white border-2 border-primary shadow-medium"
+          ? "bg-white border-2 border-accent shadow-medium"
           : "bg-white border border-border hover:shadow-medium hover:-translate-y-1 hover:border-[#E5DFD6]"
       }`}
     >
       {plan.highlighted && (
-        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary mb-5 animate-pulse-subtle">
+        <span className="absolute -top-3 left-6 inline-flex items-center h-6 px-3 bg-accent text-white font-mono text-[10px] uppercase tracking-[0.16em] rounded-full shadow-soft animate-pulse-subtle">
           Most popular
-        </p>
+        </span>
       )}
 
-      <h3 className="font-display font-bold text-[22px] leading-tight text-dark">
+      <h3 className="font-display text-[34px] leading-none tracking-[-0.02em] text-dark">
         {plan.name}
       </h3>
       <p className="text-text-muted text-[13px] mt-1 font-mono">{plan.tagline}</p>
 
       <div className="mt-5 flex items-baseline gap-1 flex-wrap">
-        <span className="font-display font-bold text-[48px] md:text-[56px] leading-none text-dark tracking-[-0.04em]">
+        <span className="font-body font-bold text-[48px] md:text-[56px] leading-none text-dark tracking-[-0.04em]">
           ${plan.monthly}
         </span>
         <span className="text-text-muted text-sm">/mo</span>
@@ -110,7 +110,7 @@ function PricingCard({ plan }: { plan: typeof plans[0] }) {
       <ul className="mt-6 space-y-3 flex-1">
         {plan.features.map((f) => (
           <li key={f} className="flex items-start gap-2 text-sm text-text-secondary">
-            <Check size={15} className="text-primary mt-0.5 shrink-0" />
+            <Check size={15} className="text-accent mt-0.5 shrink-0" />
             {f}
           </li>
         ))}
@@ -166,10 +166,10 @@ function ComparisonToggle() {
       <div className="relative">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
           <div>
-            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary mb-2">
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-2">
               See the difference
             </p>
-            <h3 className="font-display font-bold text-[24px] md:text-[32px] leading-tight tracking-[-0.03em] text-dark">
+            <h3 className="font-display text-[32px] md:text-[44px] leading-[1.05] tracking-[-0.025em] text-dark">
               Same outcome. A fraction of the cost.
             </h3>
           </div>
@@ -213,7 +213,7 @@ function ComparisonToggle() {
               transition={{ duration: 0.5, ease: DORZA_EASE }}
               className="flex items-baseline gap-2 flex-wrap"
             >
-              <span className="font-display font-bold text-[64px] md:text-[88px] leading-none tracking-[-0.05em] text-dark tabular-nums">
+              <span className="font-body font-bold text-[64px] md:text-[88px] leading-none tracking-[-0.05em] text-dark tabular-nums">
                 ${Math.round(monthly).toLocaleString()}
               </span>
               <span className="text-text-muted text-base">/mo</span>
@@ -231,7 +231,7 @@ function ComparisonToggle() {
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.9, y: 6 }}
                   transition={{ duration: 0.5, ease: DORZA_EASE }}
-                  className="mt-5 inline-flex items-center gap-2 h-9 px-4 bg-primary-light text-primary border border-primary/20 rounded-full font-semibold text-[13px]"
+                  className="mt-5 inline-flex items-center gap-2 h-9 px-4 bg-accent-tint text-accent-dark border border-accent/30 rounded-full font-semibold text-[13px]"
                 >
                   You save ${savings.toLocaleString()}/mo · {savingsPct}% off
                 </motion.div>
@@ -257,7 +257,7 @@ function ComparisonToggle() {
                     <Check
                       size={16}
                       className={`mt-0.5 shrink-0 ${
-                        side === "dorza" ? "text-primary" : "text-text-muted"
+                        side === "dorza" ? "text-accent" : "text-text-muted"
                       }`}
                     />
                     {f}
@@ -278,10 +278,10 @@ export default function Pricing() {
       <Container>
         <Reveal>
           <div className="text-center mb-12">
-            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary mb-4">
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-4">
               {"// Pricing"}
             </p>
-            <h2 className="font-display font-bold text-[32px] md:text-[44px] leading-[1.05] tracking-[-0.03em] text-dark">
+            <h2 className="font-display text-[44px] md:text-[60px] leading-[1.02] tracking-[-0.025em] text-dark">
               Simple, transparent pricing
             </h2>
           </div>

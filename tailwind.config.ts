@@ -10,9 +10,16 @@ const config: Config = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: "#E8742A",
-          dark: "#C45D1E",
-          light: "#FFF0E5",
+          DEFAULT: "#D4845A",
+          light: "#E8A87C",
+          dark: "#B8673F",
+          tint: "#FBEDE3",
+        },
+        accent: {
+          DEFAULT: "#6B8F71",
+          light: "#A4C2A8",
+          dark: "#4A6B4E",
+          tint: "#E8EFE9",
         },
         dark: "#1A1A2E",
         surface: "#F9F7F5",
@@ -24,8 +31,8 @@ const config: Config = {
         status: "#24CB71",
       },
       fontFamily: {
-        display: ["var(--font-fraunces)", "serif"],
-        body: ["var(--font-dm-sans)", "sans-serif"],
+        display: ["var(--font-display)", "Georgia", "serif"],
+        body: ["var(--font-body)", "system-ui", "sans-serif"],
         mono: [
           "ui-monospace",
           "Cascadia Code",
@@ -68,8 +75,8 @@ const config: Config = {
           "100%": { transform: "translateX(-50%)" },
         },
         "pulse-ring": {
-          "0%": { boxShadow: "0 0 0 0px rgba(232, 116, 42, 0.4)" },
-          "100%": { boxShadow: "0 0 0 8px rgba(232, 116, 42, 0)" },
+          "0%": { boxShadow: "0 0 0 0px rgba(212, 132, 90, 0.4)" },
+          "100%": { boxShadow: "0 0 0 8px rgba(212, 132, 90, 0)" },
         },
         "bounce-gentle": {
           "0%, 100%": { transform: "translateY(0)" },
