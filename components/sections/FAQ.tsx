@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
-import { Reveal } from "@/components/motion/Reveal";
+import { Reveal, DORZA_EASE } from "@/components/motion/Reveal";
 
 const faqs = [
   {
@@ -34,6 +34,7 @@ const faqs = [
 
 function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
   const [open, setOpen] = useState(false);
+  const shouldReduce = useReducedMotion();
   const id = `faq-${index}`;
 
   return (
@@ -42,29 +43,41 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
         id={`${id}-btn`}
         aria-expanded={open}
         aria-controls={`${id}-content`}
-        onClick={() => setOpen(!open)}
+        onClick={() => setOpen((o) => !o)}
         className="w-full flex items-center justify-between gap-4 py-5 text-left group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm"
       >
-        <span className="font-display font-semibold text-[17px] leading-snug text-dark group-hover:text-primary transition-colors duration-[160ms]">
+        <span className="font-display font-semibold text-[17px] md:text-[18px] leading-snug tracking-[-0.01em] text-dark group-hover:text-primary transition-colors duration-300 ease-dorza">
           {q}
         </span>
-        <ChevronDown
-          size={18}
-          className={`text-text-muted shrink-0 transition-transform duration-[200ms] ease-[cubic-bezier(0.25,1,0.5,1)] ${
-            open ? "rotate-180" : ""
+        <span
+          aria-hidden
+          className={`relative shrink-0 h-5 w-5 text-text-muted transition-transform duration-300 ease-dorza ${
+            open ? "rotate-45 text-primary" : "rotate-0"
           }`}
-        />
+        >
+          <span className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-px bg-current" />
+          <span className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-px bg-current" />
+        </span>
       </button>
-      <div
-        id={`${id}-content`}
-        role="region"
-        aria-labelledby={`${id}-btn`}
-        className={`faq-content ${open ? "open" : ""}`}
-      >
-        <div>
-          <p className="pb-5 text-[15px] leading-[1.6] text-text-secondary">{a}</p>
-        </div>
-      </div>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            id={`${id}-content`}
+            role="region"
+            aria-labelledby={`${id}-btn`}
+            key="content"
+            initial={shouldReduce ? { opacity: 0 } : { height: 0, opacity: 0 }}
+            animate={shouldReduce ? { opacity: 1 } : { height: "auto", opacity: 1 }}
+            exit={shouldReduce ? { opacity: 0 } : { height: 0, opacity: 0 }}
+            transition={{ duration: 0.4, ease: DORZA_EASE }}
+            className="overflow-hidden"
+          >
+            <p className="pb-5 text-[15px] leading-[1.65] tracking-[-0.005em] text-text-secondary max-w-prose">
+              {a}
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -76,22 +89,20 @@ export default function FAQ() {
         <div className="max-w-2xl mx-auto">
           <Reveal>
             <div className="text-center mb-12">
-              <p className="font-mono text-[13px] uppercase tracking-widest text-primary mb-4">
+              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary mb-4">
                 {"// Questions"}
               </p>
-              <h2 className="font-display font-bold text-[28px] md:text-[40px] leading-[1.08] tracking-[-0.02em] text-dark">
+              <h2 className="font-display font-bold text-[32px] md:text-[44px] leading-[1.05] tracking-[-0.03em] text-dark">
                 Answers to the real questions
               </h2>
             </div>
           </Reveal>
 
-          <div>
+          <Reveal delay={0.1} stagger={0.06}>
             {faqs.map((item, i) => (
-              <Reveal key={i} delay={i * 0.04}>
-                <FAQItem q={item.q} a={item.a} index={i} />
-              </Reveal>
+              <FAQItem key={i} q={item.q} a={item.a} index={i} />
             ))}
-          </div>
+          </Reveal>
         </div>
       </Container>
     </section>

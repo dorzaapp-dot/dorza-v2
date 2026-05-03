@@ -4,6 +4,7 @@ import { Check } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Reveal } from "@/components/motion/Reveal";
+import { SlideReveal } from "@/components/motion/SlideReveal";
 
 function BrowserMock() {
   return (
@@ -145,8 +146,9 @@ export default function Services() {
         <div className="grid grid-cols-1 md:grid-cols-6 gap-4 auto-rows-auto">
 
           {/* Website — col-span-4 row-span-2 */}
-          <Reveal
-            className="md:col-span-4 md:row-span-2 rounded-card border border-border p-6 bg-surface hover:shadow-medium hover:-translate-y-1 transition-all duration-200 hover:border-[#E5DFD6]"
+          <SlideReveal
+            from="left"
+            className="md:col-span-4 md:row-span-2 rounded-card border border-border p-6 bg-surface hover:shadow-medium hover:-translate-y-1 hover:border-[#E5DFD6] transition-all duration-500 ease-dorza"
             delay={0.05}
           >
             <div className="flex items-start justify-between">
@@ -168,12 +170,13 @@ export default function Services() {
                 </li>
               ))}
             </ul>
-          </Reveal>
+          </SlideReveal>
 
           {/* Social — col-span-2 row-span-2 */}
-          <Reveal
-            className="md:col-span-2 md:row-span-2 rounded-card border border-primary/20 p-6 bg-primary-light hover:shadow-medium hover:-translate-y-1 transition-all duration-200"
-            delay={0.1}
+          <SlideReveal
+            from="right"
+            className="md:col-span-2 md:row-span-2 rounded-card border border-primary/20 p-6 bg-primary-light hover:shadow-medium hover:-translate-y-1 transition-all duration-500 ease-dorza"
+            delay={0.12}
           >
             <h3 className="font-display font-semibold text-[22px] md:text-[24px] leading-[1.18] tracking-[-0.01em] text-dark">
               Social media on autopilot
@@ -187,12 +190,13 @@ export default function Services() {
                 </li>
               ))}
             </ul>
-          </Reveal>
+          </SlideReveal>
 
           {/* Research — col-span-3 row-span-2, dark */}
-          <Reveal
-            className="md:col-span-3 md:row-span-2 rounded-card border border-white/10 p-6 bg-dark hover:shadow-medium hover:-translate-y-1 transition-all duration-200"
-            delay={0.15}
+          <SlideReveal
+            from="left"
+            className="md:col-span-3 md:row-span-2 rounded-card border border-white/10 p-6 bg-dark hover:shadow-medium hover:-translate-y-1 transition-all duration-500 ease-dorza"
+            delay={0.18}
           >
             <h3 className="font-display font-semibold text-[22px] md:text-[24px] leading-[1.18] tracking-[-0.01em] text-white">
               Research & strategy
@@ -206,12 +210,13 @@ export default function Services() {
                 </li>
               ))}
             </ul>
-          </Reveal>
+          </SlideReveal>
 
           {/* AI Agents — col-span-3 row-span-2 */}
-          <Reveal
-            className="md:col-span-3 md:row-span-2 rounded-card border border-border p-6 bg-surface hover:shadow-medium hover:-translate-y-1 transition-all duration-200 hover:border-[#E5DFD6]"
-            delay={0.2}
+          <SlideReveal
+            from="right"
+            className="md:col-span-3 md:row-span-2 rounded-card border border-border p-6 bg-surface hover:shadow-medium hover:-translate-y-1 hover:border-[#E5DFD6] transition-all duration-500 ease-dorza"
+            delay={0.24}
           >
             <div className="flex items-start justify-between">
               <h3 className="font-display font-semibold text-[22px] md:text-[24px] leading-[1.18] tracking-[-0.01em] text-dark">
@@ -230,7 +235,7 @@ export default function Services() {
                 </li>
               ))}
             </ul>
-          </Reveal>
+          </SlideReveal>
         </div>
       </Container>
     </section>

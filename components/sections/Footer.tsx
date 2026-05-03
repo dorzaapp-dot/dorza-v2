@@ -54,7 +54,11 @@ export default function Footer() {
         <div className="grid md:grid-cols-3 gap-12">
           {/* Brand */}
           <div>
-            <a href="/" className="font-display font-bold text-2xl" aria-label="Dorza home">
+            <a
+              href="/"
+              className="inline-block font-display font-bold text-2xl animate-breathe"
+              aria-label="Dorza home"
+            >
               d<span className="text-primary">o</span>rza
             </a>
             <p className="mt-3 text-white/50 text-sm leading-relaxed">
@@ -127,9 +131,12 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 pt-6 border-t border-white/10">
-          <p className="font-mono text-[11px] text-white/30 uppercase tracking-wider">
+        <div className="mt-14 pt-6 border-t border-white/10 flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+          <p className="font-mono text-[11px] text-white/30 uppercase tracking-[0.18em]">
             © 2026 dorza · made in sydney
+          </p>
+          <p className="font-mono text-[11px] text-white/30 uppercase tracking-[0.18em]">
+            Made with AI and good taste
           </p>
         </div>
       </Container>

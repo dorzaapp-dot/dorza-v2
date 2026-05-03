@@ -52,6 +52,7 @@ const config: Config = {
       transitionTimingFunction: {
         "out-expo": "cubic-bezier(0.16, 1, 0.3, 1)",
         "out-quart": "cubic-bezier(0.25, 1, 0.5, 1)",
+        dorza: "cubic-bezier(0.23, 1, 0.32, 1)",
       },
       keyframes: {
         float: {
@@ -62,9 +63,25 @@ const config: Config = {
           "0%": { transform: "translateX(0)" },
           "100%": { transform: "translateX(-50%)" },
         },
+        marquee: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
         "pulse-ring": {
           "0%": { boxShadow: "0 0 0 0px rgba(232, 116, 42, 0.4)" },
           "100%": { boxShadow: "0 0 0 8px rgba(232, 116, 42, 0)" },
+        },
+        "bounce-gentle": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(8px)" },
+        },
+        breathe: {
+          "0%, 100%": { transform: "scale(1)", opacity: "0.6" },
+          "50%": { transform: "scale(1.02)", opacity: "1" },
+        },
+        "pulse-subtle": {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.7" },
         },
       },
       animation: {
@@ -75,7 +92,11 @@ const config: Config = {
         "float-delay-4": "float 8s ease-in-out 3s infinite",
         "float-delay-5": "float 7s ease-in-out 1.5s infinite",
         "marquee-scroll": "marquee-scroll 40s linear infinite",
+        marquee: "marquee 30s linear infinite",
         "pulse-ring": "pulse-ring 0.8s ease-out forwards",
+        "bounce-gentle": "bounce-gentle 2s ease-in-out infinite",
+        breathe: "breathe 4s ease-in-out infinite",
+        "pulse-subtle": "pulse-subtle 2s ease-in-out infinite",
       },
     },
   },

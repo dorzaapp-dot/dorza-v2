@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { DORZA_EASE } from "@/components/motion/Reveal";
 
 const links = [
   { label: "Services", href: "#services" },
@@ -12,19 +14,28 @@ const links = [
 export default function Nav() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const shouldReduce = useReducedMotion();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
   return (
     <>
       <nav
-        className={`fixed top-0 inset-x-0 z-50 transition-all duration-[280ms] ${
+        className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ease-dorza ${
           scrolled
-            ? "bg-white/90 backdrop-blur-md border-b border-border"
+            ? "bg-white/80 backdrop-blur-md border-b border-border/80"
             : "bg-transparent"
         }`}
       >
@@ -42,22 +53,26 @@ export default function Nav() {
               <a
                 key={l.href}
                 href={l.href}
-                className="text-text-secondary hover:text-dark font-medium text-sm transition-colors duration-[160ms]"
+                className="group relative text-text-secondary hover:text-dark font-medium text-sm transition-colors duration-300 ease-dorza py-1"
               >
                 {l.label}
+                <span
+                  aria-hidden="true"
+                  className="absolute left-0 -bottom-0.5 h-px w-full origin-left scale-x-0 bg-dark transition-transform duration-300 ease-dorza group-hover:scale-x-100"
+                />
               </a>
             ))}
             <a
               href="#waitlist"
-              className="inline-flex items-center justify-center h-10 px-5 bg-primary hover:bg-primary-dark text-white font-semibold text-sm rounded-full transition-all duration-[160ms] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              className="inline-flex items-center justify-center h-10 px-5 bg-primary hover:bg-primary-dark text-white font-semibold text-sm rounded-full transition-all duration-300 ease-dorza hover:-translate-y-px hover:shadow-medium active:translate-y-0 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
               Join the waitlist
             </a>
           </div>
 
           <button
-            onClick={() => setOpen(!open)}
-            className="md:hidden p-2 text-dark rounded-sm focus-visible:ring-2 focus-visible:ring-primary"
+            onClick={() => setOpen((o) => !o)}
+            className="md:hidden p-2 text-dark rounded-sm focus-visible:ring-2 focus-visible:ring-primary relative z-50"
             aria-label="Toggle menu"
             aria-expanded={open}
           >
@@ -66,30 +81,62 @@ export default function Nav() {
         </div>
       </nav>
 
-      {/* Mobile full-screen overlay */}
-      {open && (
-        <div className="md:hidden fixed inset-0 z-40 bg-white flex flex-col px-6 pt-20 pb-10">
-          <nav aria-label="Mobile navigation">
-            {links.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                onClick={() => setOpen(false)}
-                className="flex items-center py-5 text-2xl font-display font-semibold text-dark border-b border-border"
-              >
-                {l.label}
-              </a>
-            ))}
-          </nav>
-          <a
-            href="#waitlist"
-            onClick={() => setOpen(false)}
-            className="inline-flex items-center justify-center h-12 px-5 mt-8 bg-primary hover:bg-primary-dark text-white font-semibold rounded-full transition-colors"
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            key="mobile-menu"
+            initial={shouldReduce ? { opacity: 0 } : { y: "-100%" }}
+            animate={shouldReduce ? { opacity: 1 } : { y: 0 }}
+            exit={shouldReduce ? { opacity: 0 } : { y: "-100%" }}
+            transition={{ duration: 0.5, ease: DORZA_EASE }}
+            className="md:hidden fixed inset-0 z-40 bg-white flex flex-col px-6 pt-20 pb-10"
           >
-            Join the waitlist
-          </a>
-        </div>
-      )}
+            <motion.nav
+              aria-label="Mobile navigation"
+              initial="hidden"
+              animate="visible"
+              variants={{
+                hidden: {},
+                visible: {
+                  transition: {
+                    staggerChildren: shouldReduce ? 0 : 0.08,
+                    delayChildren: shouldReduce ? 0 : 0.2,
+                  },
+                },
+              }}
+            >
+              {links.map((l) => (
+                <motion.a
+                  key={l.href}
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  variants={{
+                    hidden: shouldReduce ? {} : { opacity: 0, y: 20 },
+                    visible: {
+                      opacity: 1,
+                      y: 0,
+                      transition: { duration: 0.5, ease: DORZA_EASE },
+                    },
+                  }}
+                  className="flex items-center py-5 text-2xl font-display font-semibold text-dark border-b border-border"
+                >
+                  {l.label}
+                </motion.a>
+              ))}
+            </motion.nav>
+            <motion.a
+              href="#waitlist"
+              onClick={() => setOpen(false)}
+              initial={shouldReduce ? {} : { opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.5, ease: DORZA_EASE }}
+              className="inline-flex items-center justify-center h-12 px-5 mt-8 bg-primary hover:bg-primary-dark text-white font-semibold rounded-full transition-colors"
+            >
+              Join the waitlist
+            </motion.a>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

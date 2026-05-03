@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { Container } from "@/components/ui/Container";
-import { Reveal } from "@/components/motion/Reveal";
+import { Reveal, DORZA_EASE } from "@/components/motion/Reveal";
 import { submitForm } from "@/lib/api";
 import type { BusinessType } from "@/lib/types";
 
@@ -18,7 +19,9 @@ const businessTypes: (BusinessType | "Other")[] = [
 ];
 
 const inputCls =
-  "w-full h-12 px-4 rounded-full text-sm text-white placeholder-white/40 bg-white/10 border border-white/20 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-[160ms]";
+  "w-full h-12 px-4 rounded-full text-sm text-white placeholder-white/40 bg-white/[0.06] border border-white/15 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 ease-dorza hover:bg-white/[0.08]";
+
+const labelCls = "block text-[12px] font-medium text-white/60 mb-1.5 ml-1 uppercase tracking-[0.12em] font-mono";
 
 export default function WaitlistCTA() {
   const [form, setForm] = useState({
@@ -39,115 +42,199 @@ export default function WaitlistCTA() {
   }
 
   return (
-    <section id="waitlist" className="py-20 md:py-[10rem] bg-dark">
+    <section
+      id="waitlist"
+      className="relative py-20 md:py-[10rem] bg-dark text-white overflow-hidden"
+    >
+      {/* Radial spotlights */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(600px circle at 15% 20%, rgba(232,116,42,0.18), transparent 60%), radial-gradient(800px circle at 85% 80%, rgba(232,116,42,0.10), transparent 60%)",
+        }}
+      />
+
       <Container>
-        <div className="max-w-xl mx-auto text-center">
+        <div className="relative max-w-xl mx-auto text-center">
           <Reveal>
-            <p className="font-mono text-[13px] uppercase tracking-widest text-primary mb-6">
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary mb-6">
               {"// Founding client offer"}
             </p>
-            <h2 className="font-display font-bold text-[32px] md:text-[56px] leading-[1.02] tracking-[-0.025em] text-white mb-4">
-              Get in before we launch
+            <h2 className="font-display font-bold text-[36px] md:text-[60px] leading-[1.0] tracking-[-0.04em] text-white mb-5">
+              Ready to stop being invisible online?
             </h2>
-            <p className="text-[16px] md:text-[18px] leading-[1.55] text-white/60">
-              We&apos;re onboarding our first 20 founding clients in Sydney.
-              Join the waitlist and lock in 50% off your setup fee.
+            <p className="text-[17px] md:text-[18px] leading-relaxed tracking-[-0.01em] text-white/60 max-w-md mx-auto">
+              Join the first 20 founding clients in Sydney and lock in 50% off
+              your setup. Your new website ships within 24 hours of saying yes.
             </p>
           </Reveal>
 
-          <Reveal delay={0.15} className="mt-10">
-            {submitted ? (
-              <div className="rounded-card border border-white/10 bg-white/5 p-10 text-center">
-                <p className="font-mono text-[12px] uppercase tracking-widest text-primary mb-3">
-                  You&apos;re in
-                </p>
-                <h3 className="font-display font-semibold text-[24px] text-white mb-2">
-                  You&apos;re on the list.
-                </h3>
-                <p className="text-white/60 text-sm">We&apos;ll be in touch soon.</p>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="text-left space-y-3">
-                <div>
-                  <label className="block text-[13px] font-medium text-white/70 mb-1.5 ml-1">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Your name"
-                    value={form.name}
-                    onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    className={inputCls}
-                  />
-                </div>
-                <div>
-                  <label className="block text-[13px] font-medium text-white/70 mb-1.5 ml-1">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    placeholder="you@business.com.au"
-                    value={form.email}
-                    onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    className={inputCls}
-                  />
-                </div>
-                <div className="relative">
-                  <label className="block text-[13px] font-medium text-white/70 mb-1.5 ml-1">
-                    Business type
-                  </label>
-                  <select
-                    required
-                    value={form.businessType}
-                    onChange={(e) =>
-                      setForm({ ...form, businessType: e.target.value as BusinessType })
-                    }
-                    className={`${inputCls} appearance-none`}
-                  >
-                    <option value="" className="bg-dark text-white">
-                      Select your business type
-                    </option>
-                    {businessTypes.map((t) => (
-                      <option key={t} value={t} className="bg-dark text-white">
-                        {t}
-                      </option>
-                    ))}
-                  </select>
-                  <ChevronDown
-                    size={16}
-                    className="absolute right-4 bottom-3.5 text-white/40 pointer-events-none"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[13px] font-medium text-white/70 mb-1.5 ml-1">
-                    Suburb
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. Surry Hills"
-                    value={form.suburb}
-                    onChange={(e) => setForm({ ...form, suburb: e.target.value })}
-                    className={inputCls}
-                  />
-                </div>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full h-12 bg-primary hover:bg-primary-dark text-white font-semibold text-sm rounded-full transition-all duration-[160ms] active:scale-[0.98] disabled:opacity-60 mt-2 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-dark"
+          <div className="mt-10">
+            <AnimatePresence mode="wait">
+              {submitted ? (
+                <Confirmation key="confirm" />
+              ) : (
+                <motion.form
+                  key="form"
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8, scale: 0.98 }}
+                  transition={{ duration: 0.5, ease: DORZA_EASE }}
+                  onSubmit={handleSubmit}
+                  className="text-left space-y-3"
                 >
-                  {loading ? "Submitting…" : "Join the waitlist →"}
-                </button>
-                <p className="text-center font-mono text-[11px] text-white/30 uppercase tracking-wider mt-2">
-                  No spam. No lock-in. Cancel any time.
-                </p>
-              </form>
-            )}
-          </Reveal>
+                  <div>
+                    <label className={labelCls}>Name</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="Your name"
+                      value={form.name}
+                      onChange={(e) => setForm({ ...form, name: e.target.value })}
+                      className={inputCls}
+                    />
+                  </div>
+                  <div>
+                    <label className={labelCls}>Email</label>
+                    <input
+                      type="email"
+                      required
+                      placeholder="you@business.com.au"
+                      value={form.email}
+                      onChange={(e) => setForm({ ...form, email: e.target.value })}
+                      className={inputCls}
+                    />
+                  </div>
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    <div className="relative">
+                      <label className={labelCls}>Business type</label>
+                      <select
+                        required
+                        value={form.businessType}
+                        onChange={(e) =>
+                          setForm({
+                            ...form,
+                            businessType: e.target.value as BusinessType,
+                          })
+                        }
+                        className={`${inputCls} appearance-none pr-10`}
+                      >
+                        <option value="" className="bg-dark text-white">
+                          Select type
+                        </option>
+                        {businessTypes.map((t) => (
+                          <option key={t} value={t} className="bg-dark text-white">
+                            {t}
+                          </option>
+                        ))}
+                      </select>
+                      <ChevronDown
+                        size={16}
+                        className="absolute right-4 bottom-3.5 text-white/40 pointer-events-none"
+                      />
+                    </div>
+                    <div>
+                      <label className={labelCls}>Suburb</label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="e.g. Surry Hills"
+                        value={form.suburb}
+                        onChange={(e) =>
+                          setForm({ ...form, suburb: e.target.value })
+                        }
+                        className={inputCls}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="relative pt-2">
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="relative w-full h-12 bg-primary hover:bg-primary-dark text-white font-semibold text-sm rounded-full transition-all duration-300 ease-dorza hover:-translate-y-px hover:shadow-medium active:translate-y-0 disabled:opacity-60 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-dark"
+                    >
+                      {loading ? "Submitting…" : "Join the waitlist →"}
+                    </button>
+                  </div>
+                  <p className="text-center font-mono text-[10px] text-white/30 uppercase tracking-[0.18em] mt-3">
+                    No spam · No lock-in · Cancel any time
+                  </p>
+                </motion.form>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
       </Container>
     </section>
+  );
+}
+
+function Confirmation() {
+  const shouldReduce = useReducedMotion();
+
+  // Pre-compute particle vectors so they're stable across renders.
+  const particles = useMemo(() => {
+    const count = 14;
+    return Array.from({ length: count }, (_, i) => {
+      const angle = (i / count) * Math.PI * 2 + Math.random() * 0.4;
+      const dist = 70 + Math.random() * 60;
+      return {
+        x: Math.cos(angle) * dist,
+        y: Math.sin(angle) * dist,
+        delay: Math.random() * 0.1,
+        size: 4 + Math.random() * 4,
+      };
+    });
+  }, []);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.96 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5, ease: DORZA_EASE }}
+      className="relative rounded-card border border-white/10 bg-white/[0.03] p-10 text-center overflow-hidden"
+    >
+      {/* Confetti burst */}
+      {!shouldReduce && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 flex items-start justify-center pt-8"
+        >
+          {particles.map((p, i) => (
+            <motion.span
+              key={i}
+              initial={{ x: 0, y: 0, opacity: 0, scale: 0.6 }}
+              animate={{
+                x: p.x,
+                y: p.y,
+                opacity: [0, 1, 1, 0],
+                scale: [0.6, 1.1, 1, 0.7],
+              }}
+              transition={{
+                duration: 1.1,
+                delay: p.delay,
+                ease: DORZA_EASE,
+                times: [0, 0.2, 0.7, 1],
+              }}
+              className="absolute rounded-full bg-primary"
+              style={{ width: p.size, height: p.size }}
+            />
+          ))}
+        </div>
+      )}
+
+      <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary mb-3">
+        You&rsquo;re in
+      </p>
+      <h3 className="font-display font-semibold text-[28px] md:text-[32px] tracking-[-0.03em] text-white mb-2">
+        Welcome to the front of the queue.
+      </h3>
+      <p className="text-white/60 text-[15px] leading-relaxed">
+        We&rsquo;ll be in touch within 24 hours from a real Sydney human.
+      </p>
+    </motion.div>
   );
 }

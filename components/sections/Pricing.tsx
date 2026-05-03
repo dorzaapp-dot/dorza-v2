@@ -1,9 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useInView } from "framer-motion";
 import { Check } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/motion/Reveal";
+import { DORZA_EASE } from "@/components/motion/Reveal";
+import { useCountUp } from "@/components/motion/useCountUp";
 
 const plans = [
   {
@@ -49,38 +52,44 @@ const plans = [
   },
 ];
 
+const comparison = {
+  agency: {
+    label: "Traditional agency",
+    monthly: 3000,
+    setup: 5000,
+    timeline: "6–8 weeks",
+    features: [
+      "Discovery workshops, decks, drawn-out approvals",
+      "12-month lock-in retainer",
+      "Multiple stakeholders, slow turnaround",
+      "Bill-by-the-hour change requests",
+    ],
+  },
+  dorza: {
+    label: "With Dorza",
+    monthly: 349,
+    setup: 799,
+    timeline: "24 hours",
+    features: [
+      "AI-assisted build, ready in a day",
+      "Month-to-month, cancel any time",
+      "One team, same-day iteration",
+      "All revisions included",
+    ],
+  },
+};
+
 function PricingCard({ plan }: { plan: typeof plans[0] }) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const [pulsed, setPulsed] = useState(false);
-
-  useEffect(() => {
-    if (!plan.highlighted) return;
-    const el = cardRef.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !pulsed) {
-          setTimeout(() => setPulsed(true), 300);
-          obs.disconnect();
-        }
-      },
-      { threshold: 0.6 }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [plan.highlighted, pulsed]);
-
   return (
     <div
-      ref={cardRef}
-      className={`relative rounded-card flex flex-col ${
+      className={`relative rounded-card flex flex-col p-6 transition-all duration-500 ease-dorza ${
         plan.highlighted
-          ? `bg-white border-2 border-primary ${pulsed ? "animate-pulse-ring" : ""}`
-          : "bg-white border border-border hover:shadow-medium hover:-translate-y-1"
-      } transition-all duration-200 p-6`}
+          ? "bg-white border-2 border-primary shadow-medium"
+          : "bg-white border border-border hover:shadow-medium hover:-translate-y-1 hover:border-[#E5DFD6]"
+      }`}
     >
       {plan.highlighted && (
-        <p className="font-mono text-[11px] uppercase tracking-widest text-primary mb-5">
+        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary mb-5 animate-pulse-subtle">
           Most popular
         </p>
       )}
@@ -91,7 +100,7 @@ function PricingCard({ plan }: { plan: typeof plans[0] }) {
       <p className="text-text-muted text-[13px] mt-1 font-mono">{plan.tagline}</p>
 
       <div className="mt-5 flex items-baseline gap-1 flex-wrap">
-        <span className="font-display font-bold text-[48px] md:text-[56px] leading-none text-dark tracking-[-0.02em]">
+        <span className="font-display font-bold text-[48px] md:text-[56px] leading-none text-dark tracking-[-0.04em]">
           ${plan.monthly}
         </span>
         <span className="text-text-muted text-sm">/mo</span>
@@ -109,9 +118,9 @@ function PricingCard({ plan }: { plan: typeof plans[0] }) {
 
       <a
         href="#waitlist"
-        className={`mt-6 inline-flex items-center justify-center h-12 w-full font-semibold text-sm rounded-full transition-all duration-[160ms] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
+        className={`mt-6 inline-flex items-center justify-center h-12 w-full font-semibold text-sm rounded-full transition-all duration-300 ease-dorza hover:-translate-y-px active:translate-y-0 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
           plan.highlighted
-            ? "bg-primary hover:bg-primary-dark text-white"
+            ? "bg-primary hover:bg-primary-dark text-white hover:shadow-medium"
             : "bg-white border border-border text-dark hover:bg-surface hover:border-[#E5DFD6]"
         }`}
       >
@@ -121,31 +130,177 @@ function PricingCard({ plan }: { plan: typeof plans[0] }) {
   );
 }
 
+function ComparisonToggle() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-100px" });
+  const [side, setSide] = useState<"agency" | "dorza">("agency");
+
+  // Auto-flip from agency to dorza shortly after entering view, for the reveal effect.
+  const [autoFlipped, setAutoFlipped] = useState(false);
+  useEffect(() => {
+    if (!inView || autoFlipped) return;
+    const t = setTimeout(() => {
+      setSide("dorza");
+      setAutoFlipped(true);
+    }, 1400);
+    return () => clearTimeout(t);
+  }, [inView, autoFlipped]);
+
+  const data = comparison[side];
+  const monthly = useCountUp(data.monthly, inView, { duration: 0.9 });
+  const setup = useCountUp(data.setup, inView, { duration: 0.9 });
+
+  const savings = comparison.agency.monthly - comparison.dorza.monthly;
+  const savingsPct = Math.round((savings / comparison.agency.monthly) * 100);
+
+  return (
+    <div
+      ref={ref}
+      className="relative rounded-card border border-border bg-white p-6 md:p-10 overflow-hidden"
+    >
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-gradient-to-br from-primary/[0.04] via-transparent to-transparent pointer-events-none"
+      />
+
+      <div className="relative">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+          <div>
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary mb-2">
+              See the difference
+            </p>
+            <h3 className="font-display font-bold text-[24px] md:text-[32px] leading-tight tracking-[-0.03em] text-dark">
+              Same outcome. A fraction of the cost.
+            </h3>
+          </div>
+
+          {/* Toggle */}
+          <div
+            role="tablist"
+            aria-label="Compare pricing"
+            className="relative inline-flex p-1 bg-surface border border-border rounded-full self-start md:self-auto"
+          >
+            <span
+              aria-hidden
+              className={`absolute top-1 bottom-1 w-1/2 rounded-full bg-white border border-border shadow-soft transition-transform duration-500 ease-dorza ${
+                side === "dorza" ? "translate-x-full" : "translate-x-0"
+              }`}
+              style={{ left: 4, right: 4, width: "calc(50% - 4px)" }}
+            />
+            {(["agency", "dorza"] as const).map((k) => (
+              <button
+                key={k}
+                role="tab"
+                aria-selected={side === k}
+                onClick={() => setSide(k)}
+                className={`relative z-10 px-4 md:px-5 h-9 rounded-full font-semibold text-[13px] transition-colors duration-300 ease-dorza ${
+                  side === k ? "text-dark" : "text-text-muted hover:text-text-secondary"
+                }`}
+              >
+                {comparison[k].label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Body */}
+        <div className="mt-8 grid md:grid-cols-12 gap-8 items-start">
+          <div className="md:col-span-5">
+            <motion.div
+              key={`price-${side}`}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: DORZA_EASE }}
+              className="flex items-baseline gap-2 flex-wrap"
+            >
+              <span className="font-display font-bold text-[64px] md:text-[88px] leading-none tracking-[-0.05em] text-dark tabular-nums">
+                ${Math.round(monthly).toLocaleString()}
+              </span>
+              <span className="text-text-muted text-base">/mo</span>
+            </motion.div>
+            <p className="mt-3 text-sm text-text-muted">
+              + ${Math.round(setup).toLocaleString()} setup · Live in{" "}
+              <span className="text-dark font-semibold">{data.timeline}</span>
+            </p>
+
+            <AnimatePresence>
+              {side === "dorza" && (
+                <motion.div
+                  key="savings"
+                  initial={{ opacity: 0, scale: 0.9, y: 6 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.9, y: 6 }}
+                  transition={{ duration: 0.5, ease: DORZA_EASE }}
+                  className="mt-5 inline-flex items-center gap-2 h-9 px-4 bg-primary-light text-primary border border-primary/20 rounded-full font-semibold text-[13px]"
+                >
+                  You save ${savings.toLocaleString()}/mo · {savingsPct}% off
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <div className="md:col-span-7">
+            <AnimatePresence mode="wait">
+              <motion.ul
+                key={`features-${side}`}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.4, ease: DORZA_EASE }}
+                className="space-y-3"
+              >
+                {data.features.map((f) => (
+                  <li
+                    key={f}
+                    className="flex items-start gap-2 text-[15px] text-text-secondary leading-relaxed"
+                  >
+                    <Check
+                      size={16}
+                      className={`mt-0.5 shrink-0 ${
+                        side === "dorza" ? "text-primary" : "text-text-muted"
+                      }`}
+                    />
+                    {f}
+                  </li>
+                ))}
+              </motion.ul>
+            </AnimatePresence>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Pricing() {
   return (
     <section id="pricing" className="py-20 md:py-[7.5rem] bg-white">
       <Container>
         <Reveal>
-          <div className="text-center mb-14">
-            <p className="font-mono text-[13px] uppercase tracking-widest text-primary mb-4">
+          <div className="text-center mb-12">
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary mb-4">
               {"// Pricing"}
             </p>
-            <h2 className="font-display font-bold text-[28px] md:text-[40px] leading-[1.08] tracking-[-0.02em] text-dark">
+            <h2 className="font-display font-bold text-[32px] md:text-[44px] leading-[1.05] tracking-[-0.03em] text-dark">
               Simple, transparent pricing
             </h2>
           </div>
         </Reveal>
 
-        <div className="grid md:grid-cols-3 gap-5">
+        <Reveal delay={0.1}>
+          <ComparisonToggle />
+        </Reveal>
+
+        <div className="mt-12 grid md:grid-cols-3 gap-5">
           {plans.map((plan, i) => (
-            <Reveal key={plan.name} delay={i * 0.07}>
+            <Reveal key={plan.name} delay={i * 0.08}>
               <PricingCard plan={plan} />
             </Reveal>
           ))}
         </div>
 
         <Reveal delay={0.3}>
-          <p className="text-center font-mono text-[12px] text-text-muted uppercase tracking-wider mt-10">
+          <p className="text-center font-mono text-[11px] text-text-muted uppercase tracking-[0.16em] mt-10">
             Founding client offer · 50% off setup for the first 20 Sydney clients
           </p>
         </Reveal>

@@ -1,58 +1,82 @@
+"use client";
+
+import { useInView } from "framer-motion";
+import { useRef } from "react";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/motion/Reveal";
-import { Stagger } from "@/components/motion/Stagger";
+import { useCountUp } from "@/components/motion/useCountUp";
 
-const points = [
-  {
-    eyebrow: "// Speed",
-    title: "Live in 24 hours",
-    desc: "Traditional agencies take weeks. We ship in a day, then iterate. Your business doesn't wait.",
-  },
-  {
-    eyebrow: "// Price",
-    title: "A fraction of the cost",
-    desc: "No bloated retainers. Transparent pricing from $199/month. Cancel any time.",
-  },
-  {
-    eyebrow: "// Scale",
-    title: "AI that works while you sleep",
-    desc: "Our agents handle posts, enquiries, and strategy around the clock. You get a whole digital team.",
-  },
+type Stat = {
+  prefix?: string;
+  suffix?: string;
+  target: number;
+  decimals?: number;
+  label: string;
+};
+
+const stats: Stat[] = [
+  { suffix: "h", target: 24, label: "From signup to live website" },
+  { suffix: "%", target: 85, label: "Cheaper than a traditional agency" },
+  { prefix: "$", target: 199, label: "Starting from, per month" },
 ];
 
 export default function Thesis() {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-100px" });
+
   return (
-    <section className="py-20 md:py-[7.5rem] bg-warm">
+    <section className="py-20 md:py-[7.5rem] bg-warm relative overflow-hidden">
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-gradient-to-br from-primary/[0.06] via-transparent to-transparent pointer-events-none"
+      />
       <Container>
         <Reveal>
-          <p className="font-mono text-[13px] uppercase tracking-widest text-primary mb-8">
+          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary mb-8">
             {"// Why dorza"}
-          </p>
-          <p className="font-display font-bold text-[28px] md:text-[40px] lg:text-[48px] leading-[1.06] tracking-[-0.025em] text-dark max-w-3xl">
-            Agencies charge $3,000 a month and take six weeks. We charge $349
-            and ship in 24 hours.{" "}
-            <span className="text-text-muted">Same quality.</span>
           </p>
         </Reveal>
 
-        <Stagger
-          delay={0.2}
-          staggerDelay={0.08}
-          className="mt-16 grid md:grid-cols-3 gap-8 md:gap-12"
-        >
-          {points.map((p) => (
-            <div key={p.title}>
-              <p className="font-mono text-[12px] uppercase tracking-widest text-primary mb-3">
-                {p.eyebrow}
-              </p>
-              <h3 className="font-display font-semibold text-[20px] leading-snug tracking-[-0.01em] text-dark mb-2">
-                {p.title}
-              </h3>
-              <p className="text-sm leading-relaxed text-text-secondary">{p.desc}</p>
-            </div>
-          ))}
-        </Stagger>
+        <div ref={ref} className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+          <Reveal className="lg:col-span-7" delay={0.05}>
+            <p className="font-display italic text-[30px] md:text-[44px] lg:text-[52px] leading-[1.06] tracking-[-0.035em] text-dark">
+              Traditional agencies charge $3,000 a month and take six weeks.
+              <span className="text-text-muted">
+                {" "}
+                Your customers can&rsquo;t tell the difference.
+              </span>
+            </p>
+          </Reveal>
+
+          <div className="lg:col-span-5 space-y-8 md:space-y-10">
+            {stats.map((s, i) => (
+              <Reveal key={s.label} delay={0.2 + i * 0.1}>
+                <StatBlock stat={s} trigger={inView} />
+              </Reveal>
+            ))}
+          </div>
+        </div>
       </Container>
     </section>
+  );
+}
+
+function StatBlock({ stat, trigger }: { stat: Stat; trigger: boolean }) {
+  const value = useCountUp(stat.target, trigger, { duration: 1.6 });
+  const display = stat.decimals
+    ? value.toFixed(stat.decimals)
+    : Math.round(value).toLocaleString();
+
+  return (
+    <div className="border-t border-border pt-5">
+      <p className="font-display font-bold text-[44px] md:text-[56px] leading-none tracking-[-0.04em] text-dark tabular-nums">
+        {stat.prefix}
+        {display}
+        {stat.suffix}
+      </p>
+      <p className="mt-3 text-[15px] text-text-secondary leading-relaxed max-w-xs">
+        {stat.label}
+      </p>
+    </div>
   );
 }

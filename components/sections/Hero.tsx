@@ -3,7 +3,8 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
-import HeroAnchor from "./HeroAnchor";
+import HeroBrowserMockup from "./HeroBrowserMockup";
+import { DORZA_EASE } from "@/components/motion/Reveal";
 
 const headline = "The whole digital playbook, done for you";
 const words = headline.split(" ");
@@ -11,27 +12,25 @@ const words = headline.split(" ");
 export default function Hero() {
   const shouldReduce = useReducedMotion();
 
-  const ease: [number, number, number, number] = [0.16, 1, 0.3, 1];
-
   const fadeUp = (delay: number) => ({
-    initial: shouldReduce ? {} : { opacity: 0, y: 16 },
+    initial: shouldReduce ? {} : { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.4, delay, ease },
+    transition: { duration: 0.6, delay, ease: DORZA_EASE },
   });
 
   const wordContainer = {
     hidden: {},
     visible: {
-      transition: { staggerChildren: shouldReduce ? 0 : 0.03, delayChildren: 0.15 },
+      transition: { staggerChildren: shouldReduce ? 0 : 0.045, delayChildren: 0.15 },
     },
   };
 
   const wordVariant = {
-    hidden: shouldReduce ? {} : { opacity: 0, y: 20 },
+    hidden: shouldReduce ? {} : { opacity: 0, y: 24 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.35, ease },
+      transition: { duration: 0.6, ease: DORZA_EASE },
     },
   };
 
@@ -43,12 +42,12 @@ export default function Hero() {
           <div className="md:col-span-3">
             <motion.p
               {...fadeUp(0)}
-              className="font-mono text-[13px] uppercase tracking-widest text-primary mb-6"
+              className="font-mono text-[11px] uppercase tracking-[0.18em] text-primary mb-6"
             >
               Digital Agency · Sydney
             </motion.p>
 
-            <h1 className="font-display font-bold text-[40px] md:text-[64px] lg:text-[72px] leading-[1.0] tracking-[-0.03em] text-dark overflow-hidden">
+            <h1 className="font-display font-bold text-[44px] md:text-[64px] lg:text-[72px] leading-[1.0] tracking-[-0.04em] text-dark overflow-hidden">
               <motion.span
                 variants={wordContainer}
                 initial="hidden"
@@ -65,38 +64,38 @@ export default function Hero() {
             </h1>
 
             <motion.p
-              {...fadeUp(0.45)}
-              className="mt-6 text-[16px] md:text-[18px] leading-[1.55] text-text-secondary max-w-md"
+              {...fadeUp(0.5)}
+              className="mt-7 text-[17px] md:text-[18px] leading-relaxed tracking-[-0.01em] text-text-secondary max-w-md"
             >
               We build your website, run your social media, and get you found on
               Google — so you can focus on what you do best.
             </motion.p>
 
             <motion.div
-              {...fadeUp(0.55)}
+              {...fadeUp(0.6)}
               className="flex flex-col sm:flex-row gap-3 mt-8"
             >
               <a
                 href="#waitlist"
-                className="inline-flex items-center justify-center h-12 px-6 bg-primary hover:bg-primary-dark text-white font-semibold text-sm rounded-full transition-all duration-[160ms] active:scale-[0.98] group focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                className="inline-flex items-center justify-center h-12 px-6 bg-primary hover:bg-primary-dark text-white font-semibold text-sm rounded-full transition-all duration-300 ease-dorza hover:-translate-y-px hover:shadow-medium active:translate-y-0 group focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               >
                 Join the waitlist{" "}
                 <ArrowRight
                   size={16}
-                  className="ml-2 transition-transform duration-[160ms] group-hover:translate-x-1 arrow"
+                  className="ml-2 transition-transform duration-300 ease-dorza group-hover:translate-x-1 arrow"
                 />
               </a>
               <a
                 href="#how-it-works"
-                className="inline-flex items-center justify-center h-12 px-6 bg-white border border-border text-dark font-semibold text-sm rounded-full hover:bg-surface hover:border-[#E5DFD6] transition-all duration-[160ms] active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                className="inline-flex items-center justify-center h-12 px-6 bg-white border border-border text-dark font-semibold text-sm rounded-full hover:bg-surface hover:border-[#E5DFD6] transition-all duration-300 ease-dorza hover:-translate-y-px active:translate-y-0 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               >
                 See how it works
               </a>
             </motion.div>
 
             <motion.p
-              {...fadeUp(0.65)}
-              className="mt-6 font-mono text-[12px] text-text-muted uppercase tracking-wider"
+              {...fadeUp(0.7)}
+              className="mt-6 font-mono text-[11px] text-text-muted uppercase tracking-[0.16em]"
             >
               No lock-in contracts · Live in 24 hours · Built for Sydney
             </motion.p>
@@ -104,7 +103,7 @@ export default function Hero() {
 
           {/* Right — 40% */}
           <div className="hidden md:block md:col-span-2">
-            <HeroAnchor />
+            <HeroBrowserMockup />
           </div>
         </div>
       </Container>
