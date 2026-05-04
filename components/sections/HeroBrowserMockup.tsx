@@ -1,15 +1,11 @@
 "use client";
 
-import {
-  AnimatePresence,
-  motion,
-  useMotionValue,
-  useReducedMotion,
-  useSpring,
-  useTransform,
-} from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { useEffect, useState } from "react";
+import Tilt from "react-parallax-tilt";
 import { DORZA_EASE } from "@/components/motion/Reveal";
+
+const MOCKUP_DIR = "/images/mockups";
 
 type Site = {
   key: string;
@@ -18,7 +14,9 @@ type Site = {
   tagline: string;
   cta: string;
   bg: string;
-  hero: string;
+  heroOverlay: string;
+  heroImg: string;
+  cardImgs: [string, string, string];
   accent: string;
   textOnHero: string;
   chip: string;
@@ -32,7 +30,14 @@ const SITES: Site[] = [
     tagline: "Single-origin roasts, made next door.",
     cta: "Order online",
     bg: "#FBF6EE",
-    hero: "linear-gradient(135deg, #5C3D2E 0%, #8C6B4F 60%, #D9B68C 100%)",
+    heroOverlay:
+      "linear-gradient(135deg, rgba(92,61,46,0.85) 0%, rgba(140,107,79,0.55) 60%, rgba(217,182,140,0.25) 100%)",
+    heroImg: `${MOCKUP_DIR}/cafe-hero.jpg`,
+    cardImgs: [
+      `${MOCKUP_DIR}/cafe-1.jpg`,
+      `${MOCKUP_DIR}/cafe-2.jpg`,
+      `${MOCKUP_DIR}/cafe-3.jpg`,
+    ],
     accent: "#7A9E7E",
     textOnHero: "#FFF7EC",
     chip: "#E9DCC4",
@@ -44,7 +49,14 @@ const SITES: Site[] = [
     tagline: "Licensed sparkies. On-site in 2 hours.",
     cta: "Get a free quote",
     bg: "#F2F4F8",
-    hero: "linear-gradient(135deg, #1B2A4A 0%, #2C3E66 60%, #E8742A 100%)",
+    heroOverlay:
+      "linear-gradient(135deg, rgba(27,42,74,0.88) 0%, rgba(44,62,102,0.65) 60%, rgba(232,116,42,0.35) 100%)",
+    heroImg: `${MOCKUP_DIR}/tradie-hero.jpg`,
+    cardImgs: [
+      `${MOCKUP_DIR}/tradie-1.jpg`,
+      `${MOCKUP_DIR}/tradie-2.jpg`,
+      `${MOCKUP_DIR}/tradie-3.jpg`,
+    ],
     accent: "#E8742A",
     textOnHero: "#FFFFFF",
     chip: "#D9DEE8",
@@ -56,7 +68,14 @@ const SITES: Site[] = [
     tagline: "Cuts, colour and balayage by the beach.",
     cta: "Book now",
     bg: "#FBF1F2",
-    hero: "linear-gradient(135deg, #E8B4B8 0%, #D89AA0 50%, #C4A35A 100%)",
+    heroOverlay:
+      "linear-gradient(135deg, rgba(232,180,184,0.55) 0%, rgba(216,154,160,0.4) 50%, rgba(196,163,90,0.3) 100%)",
+    heroImg: `${MOCKUP_DIR}/salon-hero.jpg`,
+    cardImgs: [
+      `${MOCKUP_DIR}/salon-1.jpg`,
+      `${MOCKUP_DIR}/salon-2.jpg`,
+      `${MOCKUP_DIR}/salon-3.jpg`,
+    ],
     accent: "#C4A35A",
     textOnHero: "#FFFFFF",
     chip: "#F1D9DC",
@@ -70,7 +89,6 @@ export default function HeroBrowserMockup() {
   const [index, setIndex] = useState(0);
   const site = SITES[index];
 
-  // Cycle through sites
   useEffect(() => {
     if (shouldReduce) return;
     const id = setInterval(() => {
@@ -79,144 +97,153 @@ export default function HeroBrowserMockup() {
     return () => clearInterval(id);
   }, [shouldReduce]);
 
-  // Mouse parallax
-  const ref = useRef<HTMLDivElement>(null);
-  const mx = useMotionValue(0);
-  const my = useMotionValue(0);
-  const sx = useSpring(mx, { stiffness: 80, damping: 16, mass: 0.4 });
-  const sy = useSpring(my, { stiffness: 80, damping: 16, mass: 0.4 });
-  const rotateY = useTransform(sx, [-1, 1], [-11, -5]);
-  const rotateX = useTransform(sy, [-1, 1], [5, 1]);
-
-  useEffect(() => {
-    if (shouldReduce) return;
-    const onMove = (e: MouseEvent) => {
-      const el = ref.current;
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      const dx = (e.clientX - cx) / (window.innerWidth / 2);
-      const dy = (e.clientY - cy) / (window.innerHeight / 2);
-      mx.set(Math.max(-1, Math.min(1, dx)));
-      my.set(Math.max(-1, Math.min(1, dy)));
-    };
-    window.addEventListener("mousemove", onMove);
-    return () => window.removeEventListener("mousemove", onMove);
-  }, [mx, my, shouldReduce]);
-
   return (
     <motion.div
-      ref={ref}
-      initial={shouldReduce ? {} : { opacity: 0, x: 40, rotateY: -20 }}
-      animate={{ opacity: 1, x: 0, rotateY: shouldReduce ? 0 : -8 }}
+      initial={shouldReduce ? {} : { opacity: 0, x: 40 }}
+      animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.8, delay: 0.3, ease: DORZA_EASE }}
       className="relative"
-      style={{
-        perspective: "1200px",
-        transformStyle: "preserve-3d",
-      }}
       aria-hidden="true"
     >
-      <motion.div
-        style={
-          shouldReduce
-            ? undefined
-            : { rotateY, rotateX, transformStyle: "preserve-3d" }
-        }
-        className="rounded-card border border-border overflow-hidden bg-white shadow-card will-change-transform"
+      <Tilt
+        tiltMaxAngleX={4}
+        tiltMaxAngleY={5}
+        tiltAngleYInitial={-6}
+        perspective={1500}
+        scale={1}
+        transitionSpeed={1800}
+        glareEnable={false}
+        tiltEnable={!shouldReduce}
+        className="rounded-card"
       >
-        <BrowserChrome url={site.url} />
+        <div className="rounded-card border border-border overflow-hidden bg-white shadow-card">
+          <BrowserChrome url={site.url} />
 
-        <div className="relative h-[340px] sm:h-[360px]" style={{ background: site.bg }}>
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={site.key}
-              initial={shouldReduce ? { opacity: 0 } : { opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={shouldReduce ? { opacity: 0 } : { opacity: 0, y: -8 }}
-              transition={{ duration: 0.6, ease: DORZA_EASE }}
-              className="absolute inset-0 flex flex-col"
-            >
-              {/* Mini nav */}
-              <div className="flex items-center justify-between px-5 py-3 border-b border-black/5">
-                <div className="flex items-center gap-2">
-                  <span
-                    className="h-2.5 w-2.5 rounded-full"
-                    style={{ background: site.accent }}
-                  />
-                  <span className="font-body font-semibold text-[13px] tracking-[-0.01em] text-dark/90">
-                    {site.name}
-                  </span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className="h-1.5 w-7 rounded-full" style={{ background: site.chip }} />
-                  <span className="h-1.5 w-7 rounded-full" style={{ background: site.chip }} />
-                  <span className="h-1.5 w-7 rounded-full" style={{ background: site.chip }} />
-                </div>
-              </div>
-
-              {/* Hero block */}
-              <div
-                className="relative flex-1 flex flex-col justify-end p-5"
-                style={{ backgroundImage: site.hero }}
+          <div
+            className="relative h-[340px] sm:h-[360px]"
+            style={{ background: site.bg }}
+          >
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={site.key}
+                initial={shouldReduce ? { opacity: 0 } : { opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={shouldReduce ? { opacity: 0 } : { opacity: 0, y: -8 }}
+                transition={{ duration: 0.6, ease: DORZA_EASE }}
+                className="absolute inset-0 flex flex-col"
               >
-                <div className="space-y-2">
-                  <p
-                    className="font-body font-semibold text-[18px] leading-tight tracking-[-0.01em] max-w-[80%]"
-                    style={{ color: site.textOnHero }}
-                  >
-                    {site.tagline}
-                  </p>
-                  <div className="flex items-center gap-2 pt-1">
+                {/* Mini nav */}
+                <div className="flex items-center justify-between px-5 py-3 border-b border-black/5 bg-white">
+                  <div className="flex items-center gap-2">
                     <span
-                      className="inline-flex items-center h-7 px-3 rounded-full text-[11px] font-semibold"
-                      style={{ background: site.accent, color: "#fff" }}
-                    >
-                      {site.cta}
-                    </span>
-                    <span
-                      className="inline-flex items-center h-7 px-3 rounded-full text-[11px] font-semibold"
-                      style={{
-                        background: "rgba(255,255,255,0.2)",
-                        color: site.textOnHero,
-                        backdropFilter: "blur(4px)",
-                      }}
-                    >
-                      Learn more
+                      className="h-2.5 w-2.5 rounded-full"
+                      style={{ background: site.accent }}
+                    />
+                    <span className="font-body font-semibold text-[13px] tracking-[-0.01em] text-dark/90">
+                      {site.name}
                     </span>
                   </div>
+                  <div className="flex items-center gap-3">
+                    <span
+                      className="h-1.5 w-7 rounded-full"
+                      style={{ background: site.chip }}
+                    />
+                    <span
+                      className="h-1.5 w-7 rounded-full"
+                      style={{ background: site.chip }}
+                    />
+                    <span
+                      className="h-1.5 w-7 rounded-full"
+                      style={{ background: site.chip }}
+                    />
+                  </div>
                 </div>
-              </div>
 
-              {/* Cards row */}
-              <div className="grid grid-cols-3 gap-2 p-3" style={{ background: site.bg }}>
-                {[0, 1, 2].map((i) => (
-                  <div
-                    key={i}
-                    className="aspect-[4/3] rounded-md"
-                    style={{
-                      background: site.chip,
-                    }}
+                {/* Hero block — themed image with gradient overlay */}
+                <div
+                  className="relative flex-1 flex flex-col justify-end p-5 overflow-hidden"
+                  style={{ backgroundColor: site.bg }}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={site.heroImg}
+                    alt=""
+                    className="absolute inset-0 w-full h-full object-cover"
+                    loading="lazy"
                   />
-                ))}
-              </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </motion.div>
+                  <div
+                    aria-hidden
+                    className="absolute inset-0"
+                    style={{ background: site.heroOverlay }}
+                  />
+                  <div className="relative space-y-2">
+                    <p
+                      className="font-body font-semibold text-[18px] leading-tight tracking-[-0.01em] max-w-[80%]"
+                      style={{ color: site.textOnHero }}
+                    >
+                      {site.tagline}
+                    </p>
+                    <div className="flex items-center gap-2 pt-1">
+                      <span
+                        className="inline-flex items-center h-7 px-3 rounded-full text-[11px] font-semibold"
+                        style={{ background: site.accent, color: "#fff" }}
+                      >
+                        {site.cta}
+                      </span>
+                      <span
+                        className="inline-flex items-center h-7 px-3 rounded-full text-[11px] font-semibold"
+                        style={{
+                          background: "rgba(255,255,255,0.2)",
+                          color: site.textOnHero,
+                          backdropFilter: "blur(4px)",
+                        }}
+                      >
+                        Learn more
+                      </span>
+                    </div>
+                  </div>
+                </div>
 
-      {/* Floating "Live in 24h" badge */}
+                {/* Cards row — themed thumbnails */}
+                <div
+                  className="grid grid-cols-3 gap-2 p-3"
+                  style={{ background: site.bg }}
+                >
+                  {site.cardImgs.map((src, i) => (
+                    <div
+                      key={i}
+                      className="aspect-[4/3] rounded-md overflow-hidden"
+                      style={{ background: site.chip }}
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={src}
+                        alt=""
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
+      </Tilt>
+
+      {/* Floating "Live in 24h" badge — stays anchored, doesn't tilt */}
       <motion.div
         initial={shouldReduce ? {} : { opacity: 0, scale: 0.85 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, delay: 1.0, ease: DORZA_EASE }}
-        className="absolute -top-3 -right-3 md:-top-4 md:-right-4 bg-primary text-white rounded-card px-4 py-3 shadow-medium"
+        className="absolute -top-3 -right-3 md:-top-4 md:-right-4 bg-primary text-white rounded-card px-4 py-3 shadow-medium z-10"
       >
         <p className="font-mono text-[10px] text-white/70 uppercase tracking-widest leading-none">
           Live in
         </p>
-        <p className="font-body font-bold text-[24px] leading-none mt-1 tracking-[-0.02em]">24h</p>
+        <p className="font-body font-bold text-[24px] leading-none mt-1 tracking-[-0.02em]">
+          24h
+        </p>
       </motion.div>
     </motion.div>
   );

@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Reveal, DORZA_EASE } from "@/components/motion/Reveal";
@@ -19,7 +19,7 @@ const businessTypes: (BusinessType | "Other")[] = [
 ];
 
 const inputCls =
-  "w-full h-12 px-4 rounded-full text-sm text-white placeholder-white/40 bg-white/[0.06] border border-white/15 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 ease-dorza hover:bg-white/[0.08]";
+  "w-full h-12 px-4 rounded-2xl md:rounded-full text-base text-white placeholder-white/40 bg-white/[0.06] border border-white/15 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 ease-dorza hover:bg-white/[0.08]";
 
 const labelCls = "block text-[12px] font-medium text-white/60 mb-1.5 ml-1 uppercase tracking-[0.12em] font-mono";
 
@@ -44,7 +44,7 @@ export default function WaitlistCTA() {
   return (
     <section
       id="waitlist"
-      className="relative py-20 md:py-[10rem] bg-dark text-white overflow-hidden"
+      className="relative py-16 md:py-[10rem] bg-dark text-white overflow-hidden"
     >
       {/* Radial spotlights */}
       <div
@@ -173,59 +173,13 @@ export default function WaitlistCTA() {
 }
 
 function Confirmation() {
-  const shouldReduce = useReducedMotion();
-
-  // Pre-compute particle vectors so they're stable across renders.
-  const particles = useMemo(() => {
-    const count = 14;
-    return Array.from({ length: count }, (_, i) => {
-      const angle = (i / count) * Math.PI * 2 + Math.random() * 0.4;
-      const dist = 70 + Math.random() * 60;
-      return {
-        x: Math.cos(angle) * dist,
-        y: Math.sin(angle) * dist,
-        delay: Math.random() * 0.1,
-        size: 4 + Math.random() * 4,
-      };
-    });
-  }, []);
-
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.96 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, ease: DORZA_EASE }}
-      className="relative rounded-card border border-white/10 bg-white/[0.03] p-10 text-center overflow-hidden"
+      className="rounded-card border border-white/10 bg-white/[0.03] p-10 text-center"
     >
-      {/* Confetti burst */}
-      {!shouldReduce && (
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 flex items-start justify-center pt-8"
-        >
-          {particles.map((p, i) => (
-            <motion.span
-              key={i}
-              initial={{ x: 0, y: 0, opacity: 0, scale: 0.6 }}
-              animate={{
-                x: p.x,
-                y: p.y,
-                opacity: [0, 1, 1, 0],
-                scale: [0.6, 1.1, 1, 0.7],
-              }}
-              transition={{
-                duration: 1.1,
-                delay: p.delay,
-                ease: DORZA_EASE,
-                times: [0, 0.2, 0.7, 1],
-              }}
-              className="absolute rounded-full bg-primary"
-              style={{ width: p.size, height: p.size }}
-            />
-          ))}
-        </div>
-      )}
-
       <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent-light mb-3">
         You&rsquo;re in
       </p>

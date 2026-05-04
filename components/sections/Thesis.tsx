@@ -25,11 +25,7 @@ export default function Thesis() {
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section className="py-20 md:py-[7.5rem] bg-warm relative overflow-hidden">
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-gradient-to-br from-primary/[0.06] via-transparent to-transparent pointer-events-none"
-      />
+    <section className="py-16 md:py-[7.5rem] bg-warm">
       <Container>
         <Reveal>
           <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-8">
@@ -37,24 +33,26 @@ export default function Thesis() {
           </p>
         </Reveal>
 
-        <div ref={ref} className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-          <Reveal className="lg:col-span-7" delay={0.05}>
-            <p className="font-display italic text-[36px] md:text-[52px] lg:text-[64px] leading-[1.05] tracking-[-0.025em] text-dark">
-              Traditional agencies charge $3,000 a month and take six weeks.
-              <span className="text-text-muted">
-                {" "}
-                Your customers can&rsquo;t tell the difference.
-              </span>
-            </p>
-          </Reveal>
+        <Reveal delay={0.05}>
+          <p className="font-display italic text-[36px] md:text-[52px] lg:text-[64px] leading-[1.05] tracking-[-0.025em] text-dark max-w-5xl">
+            An end-to-end digital agency, designed for how small businesses
+            actually work.
+            <span className="text-text-muted">
+              {" "}
+              Quick to launch. Simple to run. Priced to make sense.
+            </span>
+          </p>
+        </Reveal>
 
-          <div className="lg:col-span-5 space-y-8 md:space-y-10">
-            {stats.map((s, i) => (
-              <Reveal key={s.label} delay={0.2 + i * 0.1}>
-                <StatBlock stat={s} trigger={inView} />
-              </Reveal>
-            ))}
-          </div>
+        <div
+          ref={ref}
+          className="mt-14 md:mt-20 grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12"
+        >
+          {stats.map((s, i) => (
+            <Reveal key={s.label} delay={0.1 + i * 0.08}>
+              <StatBlock stat={s} trigger={inView} />
+            </Reveal>
+          ))}
         </div>
       </Container>
     </section>

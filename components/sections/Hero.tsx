@@ -47,7 +47,7 @@ export default function Hero() {
               Digital Agency · Sydney
             </motion.p>
 
-            <h1 className="font-display text-[52px] md:text-[76px] lg:text-[88px] leading-[1.02] tracking-[-0.03em] text-dark overflow-hidden">
+            <h1 className="font-display text-[44px] sm:text-[52px] md:text-[76px] lg:text-[88px] leading-[1.02] tracking-[-0.015em] sm:tracking-[-0.025em] md:tracking-[-0.03em] text-dark overflow-hidden">
               <motion.span
                 variants={wordContainer}
                 initial="hidden"
@@ -63,46 +63,39 @@ export default function Hero() {
               </motion.span>
             </h1>
 
-            <motion.p
-              {...fadeUp(0.5)}
-              className="mt-7 text-[17px] md:text-[18px] leading-relaxed tracking-[-0.01em] text-text-secondary max-w-md"
-            >
-              We build your website, run your social media, and get you found on
-              Google — so you can focus on what you do best.
-            </motion.p>
+            <motion.div {...fadeUp(0.5)}>
+              <p className="mt-7 text-[17px] md:text-[18px] leading-relaxed tracking-[-0.01em] text-text-secondary max-w-xs sm:max-w-md">
+                We build your website, run your social media, and get you found
+                on Google — so you can focus on what you do best.
+              </p>
 
-            <motion.div
-              {...fadeUp(0.6)}
-              className="flex flex-col sm:flex-row gap-3 mt-8"
-            >
-              <a
-                href="#waitlist"
-                className="inline-flex items-center justify-center h-12 px-6 bg-primary hover:bg-primary-dark text-white font-semibold text-sm rounded-full transition-all duration-300 ease-dorza hover:-translate-y-px hover:shadow-medium active:translate-y-0 group focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-              >
-                Join the waitlist{" "}
-                <ArrowRight
-                  size={16}
-                  className="ml-2 transition-transform duration-300 ease-dorza group-hover:translate-x-1 arrow"
-                />
-              </a>
-              <a
-                href="#how-it-works"
-                className="inline-flex items-center justify-center h-12 px-6 bg-white border border-border text-dark font-semibold text-sm rounded-full hover:bg-surface hover:border-[#E5DFD6] transition-all duration-300 ease-dorza hover:-translate-y-px active:translate-y-0 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-              >
-                See how it works
-              </a>
+              <div className="flex flex-col sm:flex-row gap-3 mt-8">
+                <a
+                  href="#waitlist"
+                  className="inline-flex items-center justify-center h-12 px-6 bg-primary hover:bg-primary-dark text-white font-semibold text-sm rounded-full transition-all duration-300 ease-dorza hover:-translate-y-px hover:shadow-medium active:translate-y-0 group focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                >
+                  Join the waitlist{" "}
+                  <ArrowRight
+                    size={16}
+                    className="ml-2 transition-transform duration-300 ease-dorza group-hover:translate-x-1 arrow"
+                  />
+                </a>
+                <a
+                  href="#how-it-works"
+                  className="inline-flex items-center justify-center h-12 px-6 bg-white border border-border text-dark font-semibold text-sm rounded-full hover:bg-surface hover:border-[#E5DFD6] transition-all duration-300 ease-dorza hover:-translate-y-px active:translate-y-0 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                >
+                  See how it works
+                </a>
+              </div>
+
+              <p className="mt-6 font-mono text-[11px] text-text-muted uppercase tracking-[0.16em]">
+                No lock-in contracts · Live in 24 hours · Built for Sydney
+              </p>
             </motion.div>
-
-            <motion.p
-              {...fadeUp(0.7)}
-              className="mt-6 font-mono text-[11px] text-text-muted uppercase tracking-[0.16em]"
-            >
-              No lock-in contracts · Live in 24 hours · Built for Sydney
-            </motion.p>
           </div>
 
-          {/* Right — 40% */}
-          <div className="hidden md:block md:col-span-2">
+          {/* Right — 40% on desktop, full width below text on mobile */}
+          <div className="md:col-span-2">
             <HeroBrowserMockup />
           </div>
         </div>

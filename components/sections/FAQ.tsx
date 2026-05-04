@@ -84,20 +84,20 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
 
 export default function FAQ() {
   return (
-    <section className="py-20 md:py-[7.5rem] bg-warm">
+    <section className="py-16 md:py-[7.5rem] bg-warm">
       <Container>
-        <div className="max-w-2xl mx-auto">
-          <Reveal>
-            <div className="text-center mb-12">
-              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-4">
-                {"// Questions"}
-              </p>
-              <h2 className="font-display text-[44px] md:text-[60px] leading-[1.02] tracking-[-0.025em] text-dark">
-                Answers to the real questions
-              </h2>
-            </div>
-          </Reveal>
+        <Reveal>
+          <div className="max-w-2xl mb-12">
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent mb-4">
+              {"// Questions"}
+            </p>
+            <h2 className="font-display text-[44px] md:text-[60px] leading-[1.02] tracking-[-0.025em] text-dark">
+              Answers to the real questions
+            </h2>
+          </div>
+        </Reveal>
 
+        <div className="max-w-2xl">
           <Reveal delay={0.1} stagger={0.06}>
             {faqs.map((item, i) => (
               <FAQItem key={i} q={item.q} a={item.a} index={i} />

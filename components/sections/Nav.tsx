@@ -64,7 +64,7 @@ export default function Nav() {
             ))}
             <a
               href="#waitlist"
-              className="inline-flex items-center justify-center h-10 px-5 bg-primary hover:bg-primary-dark text-white font-semibold text-sm rounded-full transition-all duration-300 ease-dorza hover:-translate-y-px hover:shadow-medium active:translate-y-0 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              className="inline-flex items-center justify-center h-12 px-5 bg-primary hover:bg-primary-dark text-white font-semibold text-sm rounded-full transition-all duration-300 ease-dorza hover:-translate-y-px hover:shadow-medium active:translate-y-0 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
               Join the waitlist
             </a>
@@ -89,7 +89,7 @@ export default function Nav() {
             animate={shouldReduce ? { opacity: 1 } : { y: 0 }}
             exit={shouldReduce ? { opacity: 0 } : { y: "-100%" }}
             transition={{ duration: 0.5, ease: DORZA_EASE }}
-            className="md:hidden fixed inset-0 z-40 bg-white flex flex-col px-6 pt-20 pb-10"
+            className="md:hidden fixed inset-0 z-40 bg-white flex flex-col px-6 pt-24 pb-10"
           >
             <motion.nav
               aria-label="Mobile navigation"

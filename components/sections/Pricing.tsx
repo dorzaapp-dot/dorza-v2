@@ -213,7 +213,7 @@ function ComparisonToggle() {
               transition={{ duration: 0.5, ease: DORZA_EASE }}
               className="flex items-baseline gap-2 flex-wrap"
             >
-              <span className="font-body font-bold text-[64px] md:text-[88px] leading-none tracking-[-0.05em] text-dark tabular-nums">
+              <span className="font-body font-bold text-[48px] sm:text-[64px] md:text-[88px] leading-none tracking-[-0.05em] text-dark tabular-nums">
                 ${Math.round(monthly).toLocaleString()}
               </span>
               <span className="text-text-muted text-base">/mo</span>
@@ -274,7 +274,7 @@ function ComparisonToggle() {
 
 export default function Pricing() {
   return (
-    <section id="pricing" className="py-20 md:py-[7.5rem] bg-white">
+    <section id="pricing" className="py-16 md:py-[7.5rem] bg-white">
       <Container>
         <Reveal>
           <div className="text-center mb-12">

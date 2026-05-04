@@ -6,6 +6,20 @@ import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/motion/Reveal";
 import { SlideReveal } from "@/components/motion/SlideReveal";
 
+const MOCKUP_DIR = "/images/mockups";
+
+const browserCardImgs = [
+  `${MOCKUP_DIR}/cafe-1.jpg`,
+  `${MOCKUP_DIR}/cafe-3.jpg`,
+  `${MOCKUP_DIR}/cafe-hero.jpg`,
+];
+
+const socialPostImgs = [
+  `${MOCKUP_DIR}/cafe-1.jpg`,
+  `${MOCKUP_DIR}/cafe-2.jpg`,
+  `${MOCKUP_DIR}/cafe-hero.jpg`,
+];
+
 function BrowserMock() {
   return (
     <div className="rounded-card border border-border overflow-hidden bg-white shadow-soft">
@@ -31,9 +45,20 @@ function BrowserMock() {
           <div className="h-9 w-24 bg-white border border-border rounded-full" />
         </div>
         <div className="grid grid-cols-3 gap-2 pt-3">
-          <div className="aspect-[4/3] bg-gradient-to-br from-primary-tint to-[#F8DCC4] rounded-[10px]" />
-          <div className="aspect-[4/3] bg-surface rounded-[10px]" />
-          <div className="aspect-[4/3] bg-gradient-to-br from-accent-tint to-[#CFE0D2] rounded-[10px]" />
+          {browserCardImgs.map((src, i) => (
+            <div
+              key={i}
+              className="aspect-[4/3] rounded-[10px] overflow-hidden bg-surface"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={src}
+                alt=""
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -42,29 +67,45 @@ function BrowserMock() {
 
 function SocialMock() {
   const posts = [
-    { bg: "from-primary-tint to-[#F8DCC4]", caption: "Latte art Friday ☕" },
-    { bg: "from-accent-tint to-[#CFE0D2]", caption: "Behind the scenes" },
-    { bg: "from-surface to-border", caption: "New menu drop" },
+    { src: socialPostImgs[0], caption: "Latte art Friday ☕" },
+    { src: socialPostImgs[1], caption: "Behind the scenes" },
+    { src: socialPostImgs[2], caption: "New menu drop" },
   ];
   return (
-    <div className="space-y-3">
-      {posts.map((p, i) => (
-        <div
-          key={i}
-          className="flex items-center gap-3 bg-white border border-border rounded-card p-3 shadow-soft"
-        >
-          <div
-            className={`w-14 h-14 rounded-md bg-gradient-to-br ${p.bg} shrink-0`}
-          />
-          <div className="flex-1 space-y-1.5 min-w-0">
-            <div className="h-2.5 bg-border rounded-full w-1/2" />
-            <p className="text-[13px] text-text-secondary truncate">{p.caption}</p>
-          </div>
-          <div className="shrink-0 w-7 h-7 rounded-full bg-accent-tint text-accent-dark flex items-center justify-center font-semibold text-[12px]">
-            ↑
-          </div>
+    <div className="mx-auto w-full max-w-[280px] rounded-[36px] bg-dark p-2 shadow-card">
+      <div className="relative rounded-[28px] bg-white pt-6 pb-4 px-3">
+        <span
+          aria-hidden
+          className="absolute top-2.5 left-1/2 -translate-x-1/2 w-14 h-1 bg-dark/15 rounded-full"
+        />
+        <div className="space-y-2.5 mt-1">
+          {posts.map((p, i) => (
+            <div
+              key={i}
+              className="flex items-center gap-3 bg-surface border border-border rounded-card p-2.5"
+            >
+              <div className="w-12 h-12 rounded-md overflow-hidden shrink-0 bg-border">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={p.src}
+                  alt=""
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+              <div className="flex-1 space-y-1.5 min-w-0">
+                <div className="h-2 bg-border rounded-full w-1/2" />
+                <p className="text-[12px] text-text-secondary truncate">
+                  {p.caption}
+                </p>
+              </div>
+              <div className="shrink-0 w-6 h-6 rounded-full bg-accent-tint text-accent-dark flex items-center justify-center font-semibold text-[11px]">
+                ↑
+              </div>
+            </div>
+          ))}
         </div>
-      ))}
+      </div>
     </div>
   );
 }
@@ -199,7 +240,7 @@ const services: Service[] = [
 
 export default function Services() {
   return (
-    <section id="services" className="py-20 md:py-[7.5rem] bg-warm">
+    <section id="services" className="py-16 md:py-[7.5rem] bg-warm">
       <Container>
         <Reveal>
           <div className="max-w-2xl mb-16 md:mb-20">
@@ -228,9 +269,10 @@ export default function Services() {
 
 function ServiceRow({ service, index }: { service: Service; index: number }) {
   const mockOnLeft = index % 2 === 0;
+  const isFirst = index === 0;
   // Visual order: when mockup is on the right, text content sits on the left.
   return (
-    <div className="md:py-16 lg:py-20">
+    <div className={isFirst ? "md:py-20 lg:py-24" : "md:py-16 lg:py-20"}>
       <div className="grid md:grid-cols-12 gap-8 lg:gap-14 items-center">
         <SlideReveal
           from={mockOnLeft ? "left" : "right"}
@@ -264,7 +306,13 @@ function ServiceRow({ service, index }: { service: Service; index: number }) {
             )}
           </div>
 
-          <h3 className="mt-3 font-body font-semibold text-[26px] md:text-[32px] leading-[1.15] tracking-[-0.02em] text-dark">
+          <h3
+            className={`mt-3 font-body font-semibold leading-[1.15] tracking-[-0.02em] text-dark ${
+              isFirst
+                ? "text-[28px] md:text-[36px]"
+                : "text-[26px] md:text-[32px]"
+            }`}
+          >
             {service.title}
           </h3>
 
